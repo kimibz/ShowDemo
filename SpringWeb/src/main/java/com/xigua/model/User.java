@@ -1,8 +1,14 @@
 package com.xigua.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
+    /**
+     * 2017-07-10 xigua
+     */
+    private static final long serialVersionUID = -3774585819569038500L;
+
     private Integer id;
 
     private String name;

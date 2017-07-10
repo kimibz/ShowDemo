@@ -19,6 +19,12 @@ public class TestObjToJson {
 				+ "\"password\":\"\",\"host\":\"\",\"port\":\"\","
 				+ "\"tcp-only\":\"\",\"reconnect-on-changed-schema\":\"\","
 				+ "\"keepalive-delay\":\"\",\"pass-through\":{}}]}";
+		String str2 = "{\"node\":[{\"nodeIid\":\"\",\"username\":\"\","
+                + "\"password\":\"\",\"host\":\"\",\"port\":\"\","
+                + "\"tcpOonly\":\"\",\"reconnectOonCchangedSschema\":\"\","
+                + "\"keepaliveDdelay\":\"\",\"passTthrough\":{}}]}";
+		String strNew = str2.replaceAll("[A-Z]","-");
+		System.out.println(strNew);
 		JSONObject object = JSON.parseObject(str);
 		System.out.println(object.toJSONString());
 		JSONArray arr =object.getJSONArray("node");
