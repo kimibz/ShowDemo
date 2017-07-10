@@ -69,4 +69,8 @@ public class HomeController {
 	public String listIndex() {
 		return "index";
 	}
+	@RequestMapping(value = "/sliceAction", method = RequestMethod.GET)
+    public String listActionSlice() {
+        return "ActionSlice";
+    }
 }

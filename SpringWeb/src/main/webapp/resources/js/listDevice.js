@@ -4,14 +4,8 @@
 	
     // =================================== 变量声明 =================================== //
     // 取得ContextPath	
-    function getContextPath() {
-        var sPathName = document.location.pathname;
-        var iIndex = sPathName.substr(1).indexOf("/");
-        var sResult = sPathName.substr(0, iIndex+1);
-        return sResult;
-    }
 	var nodeId;
-    var sContextPath = getContextPath();
+    var sContextPath = util.getContextPath();
 	// =================================== 方法执行 =================================== //
     //table初始化
     function setDeviceTbl(oData) {
@@ -41,13 +35,13 @@
     });
     //添加设备按钮绑定
     $("#create_device").click(function() {
-    	var start = $("#create_start").val();;
-    	var end = $("#create_end").val();;
-    	var data = new Object();
-    	data.start = start;
-    	data.end = end;
-    	var jsonData = JSON.stringify(data);
-    	var oAjaxOption = {
+        var start = $("#create_start").val();;
+        var end = $("#create_end").val();;
+        var data = new Object();
+        data.start = start;
+        data.end = end;
+        var jsonData = JSON.stringify(data);
+        var oAjaxOption = {
                 type: "put",
                 url: sContextPath + "/rest/spawnManyDevice.json",
                 contentType: "application/json",
@@ -65,13 +59,13 @@
     });
     //删除设备按钮绑定
     $("#delete_device").click(function() {
-    	var start = $("#delete_start").val();;
-    	var end = $("#delete_end").val();;
-    	var data = new Object();
-    	data.start = start;
-    	data.end = end;
-    	var jsonData = JSON.stringify(data);
-    	var oAjaxOption = {
+        var start = $("#delete_start").val();;
+        var end = $("#delete_end").val();;
+        var data = new Object();
+        data.start = start;
+        data.end = end;
+        var jsonData = JSON.stringify(data);
+        var oAjaxOption = {
                 type: "delete",
                 url: sContextPath + "/rest/deleteManyDevices.json",
                 contentType: "application/json",
@@ -83,8 +77,10 @@
                 error: function(oData, oStatus, eErrorThrow) {
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
                 }
         };
+        $.blockUI(util.getBlockOption());
         $.ajax(oAjaxOption);
     });
     //修改设备Id功能
@@ -113,102 +109,102 @@
     }
     //设置图表
     function setChart(){
-    	var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-    	  var lineChartData = {
-    	    labels : ['January','February','March','April','May','June','July'],
-    	    datasets : [
-    	      {
-    	        label: 'My First dataset',
-    	        backgroundColor : 'rgba(220,220,220,0.2)',
-    	        borderColor : 'rgba(220,220,220,1)',
-    	        pointBackgroundColor : 'rgba(220,220,220,1)',
-    	        pointBorderColor : '#fff',
-    	        data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-    	      },
-    	      {
-    	        label: 'My Second dataset',
-    	        backgroundColor : 'rgba(151,187,205,0.2)',
-    	        borderColor : 'rgba(151,187,205,1)',
-    	        pointBackgroundColor : 'rgba(151,187,205,1)',
-    	        pointBorderColor : '#fff',
-    	        data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-    	      }
-    	    ]
-    	  }
+        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
+        var lineChartData = {
+        labels : ['January','February','March','April','May','June','July'],
+        datasets : [
+            {
+                label: 'My First dataset',
+                backgroundColor : 'rgba(220,220,220,0.2)',
+                borderColor : 'rgba(220,220,220,1)',
+                pointBackgroundColor : 'rgba(220,220,220,1)',
+                pointBorderColor : '#fff',
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            },
+            {
+                label: 'My Second dataset',
+                backgroundColor : 'rgba(151,187,205,0.2)',
+                borderColor : 'rgba(151,187,205,1)',
+                pointBackgroundColor : 'rgba(151,187,205,1)',
+                pointBorderColor : '#fff',
+                data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
+            }
+            ]
+        }
 
-    	  var ctx = document.getElementById('myChart');
-    	  var chart = new Chart(ctx, {
-    	    type: 'line',
-    	    data: lineChartData,
-    	    options: {
-    	      responsive: true
-    	    }
-    	  });
+        var ctx = document.getElementById('myChart');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: lineChartData,
+            options: {
+                responsive: true
+            }
+        });
     }
     function setChart2(){
-    	var pieData = {
-    		    labels: [
-    		      'Red',
-    		      'Green',
-    		      'Yellow'
-    		    ],
-    		    datasets: [{
-    		      data: [166, 66, 33],
-    		      backgroundColor: [
-    		        '#FF6384',
-    		        '#36A2EB',
-    		        '#FFCE56'
-    		      ],
-    		      hoverBackgroundColor: [
-    		        '#FF6384',
-    		        '#36A2EB',
-    		        '#FFCE56'
-    		      ]
-    		    }]
-    		  };
-    		  var ctx = document.getElementById('myChart2');
-    		  var chart = new Chart(ctx, {
-    		    type: 'pie',
-    		    data: pieData,
-    		    options: {
-    		      responsive: true
-    		    }
-    		  });
+        var pieData = {
+                labels: [
+                    'Red',
+                    'Green',
+                    'Yellow'
+                    ],
+                    datasets: [{
+                        data: [166, 66, 33],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56'
+                            ],
+                            hoverBackgroundColor: [
+                                '#FF6384',
+                                '#36A2EB',
+                                '#FFCE56'
+                                ]
+                    }]
+        };
+          var ctx = document.getElementById('myChart2');
+            var chart = new Chart(ctx, {
+                    type: 'pie',
+                        data: pieData,
+                            options: {
+                                      responsive: true
+                                          }
+             });
     }
     function setChart3(){
-    	var radarChartData = {
-    		    labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-    		    datasets: [
-    		      {
-    		        label: 'My First dataset',
-    		        backgroundColor: 'rgba(220,220,220,0.2)',
-    		        borderColor: 'rgba(220,220,220,1)',
-    		        pointBackgroundColor: 'rgba(220,220,220,1)',
-    		        pointBorderColor: '#fff',
-    		        pointHighlightFill: '#fff',
-    		        pointHighlightStroke: 'rgba(220,220,220,1)',
-    		        data: [65,59,90,81,56,55,40]
-    		      },
-    		      {
-    		        label: 'My Second dataset',
-    		        backgroundColor: 'rgba(151,187,205,0.2)',
-    		        borderColor: 'rgba(151,187,205,1)',
-    		        pointBackgroundColor: 'rgba(151,187,205,1)',
-    		        pointBorderColor: '#fff',
-    		        pointHighlightFill: '#fff',
-    		        pointHighlightStroke: 'rgba(151,187,205,1)',
-    		        data: [28,48,40,19,96,27,100]
-    		      }
-    		    ]
-    		  };
-    		  var ctx = document.getElementById('myChart3');
-    		  var chart = new Chart(ctx, {
-    		    type: 'radar',
-    		    data: radarChartData,
-    		    options: {
-    		      responsive: true
-    		    }
-    		  });
+        var radarChartData = {
+                labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+                datasets: [
+                    {
+                        label: 'My First dataset',
+                        backgroundColor: 'rgba(220,220,220,0.2)',
+                        borderColor: 'rgba(220,220,220,1)',
+                        pointBackgroundColor: 'rgba(220,220,220,1)',
+                        pointBorderColor: '#fff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65,59,90,81,56,55,40]
+                    },
+                    {
+                        label: 'My Second dataset',
+                        backgroundColor: 'rgba(151,187,205,0.2)',
+                        borderColor: 'rgba(151,187,205,1)',
+                        pointBackgroundColor: 'rgba(151,187,205,1)',
+                        pointBorderColor: '#fff',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(151,187,205,1)',
+                        data: [28,48,40,19,96,27,100]
+                    }
+                    ]
+        };
+        var ctx = document.getElementById('myChart3');
+        var chart = new Chart(ctx, {
+            type: 'radar',
+            data: radarChartData,
+            options: {
+                responsive: true
+            }
+        });
     }
     // 画面初期化
     function initPage() {
@@ -229,8 +225,10 @@
                 error: function(oData, oStatus, eErrorThrow) { 
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
                 }
         };
+        $.blockUI(util.getBlockOption());
         $.ajax(oAjaxOption);
     }
     // 画面初期化

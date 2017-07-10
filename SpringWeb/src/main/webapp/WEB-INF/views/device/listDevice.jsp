@@ -223,7 +223,7 @@
                 </li>
             </ol>
 
-            <!-- 网页主体 -->
+            <!-- 网页主体Begin -->
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
@@ -298,6 +298,10 @@
                     </div>
                 </div>
             </div>
+            <!-- begin #message -->
+            <div id="messagebar-placeholder"></div>
+            <!-- end #message -->
+            <!--Modal Begin --> 
                 <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -320,7 +324,30 @@
                     </div>
                     <!-- /.modal-dialog -->
                 </div>
-            <!-- /.conainer-fluid -->
+                <div class="modal fade bs-example-modal-lg" id="sliceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">添加新切片</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <label for="name">设备名称</label>
+                                <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name">
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">取消</a>
+                                <a href="javascript:;" id="btn btn-primary" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            <!--Modal End -->
+            <!-- 主体END -->
         </main>
 
         <aside class="aside-menu">
@@ -533,7 +560,8 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.id}}">{{item.id}}</td>
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm"  data-click="delete" type="submit" data-click-data="{{item.node_id}}">删除设备</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm"  data-click="delete" type="submit" data-click-data="{{item.node_id}}">删除设备</a>
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">添加切片</a>   
                                                                      </td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.state}}">{{item.state}}</td>
                                                                  </tr>
@@ -545,10 +573,11 @@
 
     <!-- ================== END TEMPLATE ================== -->
     <!-- Bootstrap and necessary plugins -->
-    <script type="text/javascript" src="<c:url value="resources/js/jquery.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/tether_js/js/tether.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/pace-0.5.6/pace.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/tether_js/js/tether.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/pace-0.5.6/pace.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/blockui/jquery.blockUI.js" />"></script>
 
 
     <!-- Plugins and scripts required by all views -->
@@ -557,11 +586,13 @@
     <script type="text/javascript" src="<c:url value="/resources/plugin/chart/Chart.min.js" />"></script>
     <!-- GenesisUI main scripts -->
     <script type="text/javascript" src="<c:url value="/resources/js/app.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/resources/js/listDevice.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/util.js" />"></script>
     <!-- Plugins and scripts required by this views -->
     <script type="text/javascript" src="<c:url value="/resources/plugin/artTemplate/template.js" />"></script>
     <!-- Custom scripts required by this view -->
     <script type="text/javascript" src="<c:url value="resources/js/views/widgets.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/listDevice.js" />"></script>
+    
 
 </body>
 

@@ -122,18 +122,18 @@ public class NetconfServiceImp implements NetconfService{
                 //获取node分支并转为JSONArray
                 JSONArray array = JSON.parseArray(jsonObj.get("node").toString());
                 for(int i=0; i < array.size() ; i++){
-                	JSONObject netconfDevice = new JSONObject();
-                	netconfDevice = JSON.parseObject(array.get(i)+"");
-                	String id ="";
-                	id = (String) netconfDevice.get("id");
-                	String ifConnected = "离线" ;
-                	if(netconfDevice.getBooleanValue
-                			("netconf-node-inventory:connected")){
-                		ifConnected = "在线";
-                	};
-                	//不输出controller-config的内容,因为这是原有控制器的有的能力。
-                	if(!(id == "controller-config" || id.equals("controller-config")))
-                	map.put(id, ifConnected);
+                    JSONObject netconfDevice = new JSONObject();
+                    netconfDevice = JSON.parseObject(array.get(i)+"");
+                    String id ="";
+                    id = (String) netconfDevice.get("id");
+                    String ifConnected = "离线" ;
+                    if(netconfDevice.getBooleanValue
+                            ("netconf-node-inventory:connected")){
+                        ifConnected = "在线";
+                    };
+                    //不输出controller-config的内容,因为这是原有控制器的有的能力。
+                    if(!(id.equals("controller-config") || id.equals("xrv1") || id.equals("xrv2") ))
+                        map.put(id, ifConnected);
                 }
             } else {  
                 System.err.print("控制器不在线");  
