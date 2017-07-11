@@ -232,10 +232,11 @@
                                 <i class="fa fa-align-justify"></i> TableScriptTest
                             </div>
                             <div class="card-block">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#spawnModal">新增设备连接</button>
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                <div id="device-placeholder">
-                                </div>
+                                        <div id="device-placeholder">
+                                        </div>
                                     </div>
                              </div>
                             </div>
@@ -325,17 +326,105 @@
                     <!-- /.modal-dialog -->
                 </div>
                 <div class="modal fade bs-example-modal-lg" id="sliceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">添加新切片</h4>
+                                <h4 class="modal-title">device info</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <label for="name">设备名称</label>
-                                <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name">
+<!--                                 <label for="name">设备名称</label> -->
+<!--                                 <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name"> -->
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label label-wide">hostname: </label>
+                                        <label class="col-md-3 form-label label-wide text-info"><span id="hostname"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">contact: </label>
+                                        <label class="text-info"><span id="contact"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="col-md-2 control-label label-wide">cpu-isolate: </label>
+                                        <label class="col-md-1 form-label label-wide text-info"><span id="cpu-isolate"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">load-mode: </label>
+                                        <label class="text-info"><span id="load-mode"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                     </div>
+                                     <div class="form-group">
+                                        <label class="col-md-2 control-label label-wide">location: </label>
+                                        <label class="text-info"><span id="location"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                     </div>
+                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">取消</a>
+                                <a href="javascript:;" id="btn btn-primary" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <div class="modal fade bs-example-modal-lg" id="spawnModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">新建设备</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+<!--                                 <label for="name">设备名称</label> -->
+<!--                                 <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name"> -->
+                                <div class="card-block">
+                                    <div class="form-group">
+                                        <label for="company">Company</label>
+                                        <input type="text" class="form-control" id="company" placeholder="Enter your company name">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="vat">VAT</label>
+                                        <input type="text" class="form-control" id="vat" placeholder="PL1234567890">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="street">Street</label>
+                                        <input type="text" class="form-control" id="street" placeholder="Enter street name">
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label">Inline Radios</label>
+                                         <div class="col-md-9">
+                                            <label class="radio-inline" for="inline-radio1">
+                                                <input type="radio" id="inline-radio1" name="inline-radios" value="option1">One
+                                            </label>
+                                            <label class="radio-inline" for="inline-radio2">
+                                                <input type="radio" id="inline-radio2" name="inline-radios" value="option2">Two
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="form-group col-sm-8">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" placeholder="Enter your city">
+                                        </div>
+
+                                        <div class="form-group col-sm-4">
+                                            <label for="postal-code">Postal Code</label>
+                                            <input type="text" class="form-control" id="postal-code" placeholder="Postal Code">
+                                        </div>
+
+                                    </div>
+                                    <!--/.row-->
+
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <input type="text" class="form-control" id="country" placeholder="Country name">
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">取消</a>
@@ -561,7 +650,7 @@
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm"  data-click="delete" type="submit" data-click-data="{{item.node_id}}">删除设备</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">添加切片</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">设备信息</a>   
                                                                      </td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.state}}">{{item.state}}</td>
                                                                  </tr>

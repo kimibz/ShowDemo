@@ -13,6 +13,15 @@
         $("#device-placeholder").html(hHtml);
         $("#device a[data-click='edit']").bind("click", changeNameBind);
         $("#device a[data-click='delete']").bind("click", deleteDeviceBind);
+        $("#device a[data-click='get']").bind("click", getSysConfig);
+    }
+    //设置模态框sysConfig
+    function setSysInfo(oData){
+        $("#hostname").content(oData.hostname);
+        $("#contact").content(oData.contact);
+        $("#cpu-isolate").content(oData.cpuIisolate);
+        $("#location").content(oData.location);
+        $("#load-mode").content(oData.loadMmode);
     }
     //模态框 修改设备名称 确定按钮按下
     $("#myModal a[data-click='add']").click(function(){
@@ -33,30 +42,7 @@
         };
         $.ajax(oAjaxOption);
     });
-    //添加设备按钮绑定
-    $("#create_device").click(function() {
-        var start = $("#create_start").val();;
-        var end = $("#create_end").val();;
-        var data = new Object();
-        data.start = start;
-        data.end = end;
-        var jsonData = JSON.stringify(data);
-        var oAjaxOption = {
-                type: "put",
-                url: sContextPath + "/rest/spawnManyDevice.json",
-                contentType: "application/json",
-                dataType: "text",
-                data:jsonData,
-                success: function(oData, oStatus) {
-                	initPage();
-                },
-                error: function(oData, oStatus, eErrorThrow) {
-                },
-                complete: function (oXmlHttpRequest, oStatus) {
-                }
-        };
-        $.ajax(oAjaxOption);
-    });
+    
     //删除设备按钮绑定
     $("#delete_device").click(function() {
         var start = $("#delete_start").val();;
@@ -90,8 +76,8 @@
     }
     //删除设备
     function deleteDeviceBind(){
-    	nodeId = $(this).attr("data-click-data");//获取设备的node_id
-    	var oAjaxOption = {
+        nodeId = $(this).attr("data-click-data");//获取设备的node_id
+        var oAjaxOption = {
                 type: "delete",
                 url: sContextPath + "/rest/deleteOneDevice.json",
                 contentType: "application/json",
@@ -103,8 +89,31 @@
                 error: function(oData, oStatus, eErrorThrow) {
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
                 }
         };
+        $.blockUI(util.getBlockOption());
+        $.ajax(oAjaxOption);
+    }
+    //设置模态框SysConfig信息
+    function getSysConfig(){
+        nodeId = $(this).attr("data-click-data");//获取设备的node_id
+        var oAjaxOption = {
+                type: "get",
+                url: sContextPath + "/rest/deviceSysInfo/"+nodeId+".json",
+                contentType: "application/json",
+                dataType: "text",
+                data:nodeId,
+                success: function(oData, oStatus) {
+                    setSysInfo(JSON.parse(oData));
+                },
+                error: function(oData, oStatus, eErrorThrow) {
+                },
+                complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
+                }
+        };
+        $.blockUI(util.getBlockOption());
         $.ajax(oAjaxOption);
     }
     //设置图表

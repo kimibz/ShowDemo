@@ -20,6 +20,30 @@
         $("#device a[data-click='edit']").bind("click", changeNameBind);
         $("#device a[data-click='delete']").bind("click", deleteDeviceBind);
     }
+  //添加设备按钮绑定
+    $("#create_device").click(function() {
+        var start = $("#create_start").val();;
+        var end = $("#create_end").val();;
+        var data = new Object();
+        data.start = start;
+        data.end = end;
+        var jsonData = JSON.stringify(data);
+        var oAjaxOption = {
+                type: "put",
+                url: sContextPath + "/rest/spawnManyDevice.json",
+                contentType: "application/json",
+                dataType: "text",
+                data:jsonData,
+                success: function(oData, oStatus) {
+                    initPage();
+                },
+                error: function(oData, oStatus, eErrorThrow) {
+                },
+                complete: function (oXmlHttpRequest, oStatus) {
+                }
+        };
+        $.ajax(oAjaxOption);
+    });
     //模态框 修改设备名称 确定按钮按下
     $("#myModal a[data-click='add']").click(function(){
     	var newId=$("#new_device_id").val();//获取输入框的值
