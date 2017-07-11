@@ -341,8 +341,8 @@
                                     <div class="form-group">
                                         <label class="col-md-2 control-label label-wide">hostname: </label>
                                         <label class="col-md-3 form-label label-wide text-info"><span id="hostname"></span><span>&nbsp;</span><span id="limit"></span></label>
-                                        <label class="col-md-2 control-label label-wide">contact: </label>
-                                        <label class="text-info"><span id="contact"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">location: </label>
+                                        <label class="text-info"><span id="location"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div>
                                      <div class="form-group">
                                         <label class="col-md-2 control-label label-wide">cpu-isolate: </label>
@@ -351,8 +351,9 @@
                                         <label class="text-info"><span id="load-mode"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div>
                                      <div class="form-group">
-                                        <label class="col-md-2 control-label label-wide">location: </label>
-                                        <label class="text-info"><span id="location"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">contact: </label>
+                                        <label class="text-info"><span id="contact"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        
                                      </div>
                                  </div>
                             </div>
@@ -375,24 +376,19 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-<!--                                 <label for="name">设备名称</label> -->
-<!--                                 <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name"> -->
                                 <div class="card-block">
                                     <div class="form-group">
                                         <label for="company">Company</label>
                                         <input type="text" class="form-control" id="company" placeholder="Enter your company name">
                                     </div>
-
                                     <div class="form-group">
                                         <label for="vat">VAT</label>
                                         <input type="text" class="form-control" id="vat" placeholder="PL1234567890">
                                     </div>
-
                                     <div class="form-group">
                                         <label for="street">Street</label>
                                         <input type="text" class="form-control" id="street" placeholder="Enter street name">
                                     </div>
-                                    
                                     <div class="form-group row">
                                         <label class="col-md-3 form-control-label">Inline Radios</label>
                                          <div class="col-md-9">
@@ -404,22 +400,17 @@
                                             </label>
                                         </div>
                                     </div>
-
                                     <div class="row">
-
                                         <div class="form-group col-sm-8">
                                             <label for="city">City</label>
                                             <input type="text" class="form-control" id="city" placeholder="Enter your city">
                                         </div>
-
                                         <div class="form-group col-sm-4">
                                             <label for="postal-code">Postal Code</label>
                                             <input type="text" class="form-control" id="postal-code" placeholder="Postal Code">
                                         </div>
-
                                     </div>
                                     <!--/.row-->
-
                                     <div class="form-group">
                                         <label for="country">Country</label>
                                         <input type="text" class="form-control" id="country" placeholder="Country name">
