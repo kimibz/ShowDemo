@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<!-- 加载一下errors.tag标签所在的tags文件夹 -->  
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %> 
 <%
     String url = request.getRequestURL().toString();
     url = url.substring(0, url.indexOf('/', url.indexOf("//") + 2));
@@ -205,7 +207,7 @@
         <!-- Main content 地址栏-->
         
         <main class="main">
-
+            <div id="messagebar-placeholder"></div>
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
@@ -300,7 +302,7 @@
                 </div>
             </div>
             <!-- begin #message -->
-            <div id="messagebar-placeholder"></div>
+            
             <!-- end #message -->
             <!--Modal Begin --> 
                 <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -376,50 +378,58 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <!--  begin form -->
+                                <form>
                                 <div class="card-block">
                                     <div class="form-group">
-                                        <label for="company">Company</label>
-                                        <input type="text" class="form-control" id="company" placeholder="Enter your company name">
+                                        <label for="company">node-id</label>
+                                        <input type="text" class="form-control" id="node_id" name="node_id" placeholder="Enter your node-id">
                                     </div>
                                     <div class="form-group">
-                                        <label for="vat">VAT</label>
-                                        <input type="text" class="form-control" id="vat" placeholder="PL1234567890">
+                                        <label for="company">host-id</label>
+                                        <input type="text" class="form-control" id="host_id" name="host_id" placeholder="Enter your host-id">
                                     </div>
                                     <div class="form-group">
-                                        <label for="street">Street</label>
-                                        <input type="text" class="form-control" id="street" placeholder="Enter street name">
+                                        <label for="vat">username</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="street">password</label>
+                                        <input type="text" class="form-control" id="password" name="password" placeholder="Enter password">
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-3 form-control-label">Inline Radios</label>
+                                        <label class="col-md-3 form-control-label">tcp-only</label>
                                          <div class="col-md-9">
                                             <label class="radio-inline" for="inline-radio1">
-                                                <input type="radio" id="inline-radio1" name="inline-radios" value="option1">One
+                                                <input type="radio" id="tcp" name="tcp" value="true">true
                                             </label>
                                             <label class="radio-inline" for="inline-radio2">
-                                                <input type="radio" id="inline-radio2" name="inline-radios" value="option2">Two
+                                                <input type="radio" id="tcp" name="tcp" value="false">false
                                             </label>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-sm-8">
-                                            <label for="city">City</label>
-                                            <input type="text" class="form-control" id="city" placeholder="Enter your city">
+                                            <label for="city">host address</label>
+                                            <input onkeyup="value=value.replace((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" type="text" class="form-control" id="address" name="address" placeholder="Enter your host address">
                                         </div>
                                         <div class="form-group col-sm-4">
-                                            <label for="postal-code">Postal Code</label>
-                                            <input type="text" class="form-control" id="postal-code" placeholder="Postal Code">
+                                            <label for="postal-code">port</label>
+                                            <input type="text" class="form-control" id="port" name="port" placeholder="port">
                                         </div>
                                     </div>
                                     <!--/.row-->
                                     <div class="form-group">
-                                        <label for="country">Country</label>
-                                        <input type="text" class="form-control" id="country" placeholder="Country name">
+                                        <label for="country">keepalive-delay</label>
+                                        <input type="text" class="form-control" id="aliveTime" name="aliveTime" placeholder="Enter your keepalive time">
                                     </div>
                                 </div>
+                                </form>
+                                <!-- end form -->
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">取消</a>
-                                <a href="javascript:;" id="btn btn-primary" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
+                                <a href="javascript:;" id="btn btn-primary" type="submit" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -427,6 +437,26 @@
                     <!-- /.modal-dialog -->
                 </div>
             <!--Modal End -->
+            <div class="modal fade" id="deleteWarning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">是否删除</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" id="deleteDevice" data-click-data="" data-dismiss="modal" class="btn btn-primary">确认删除</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+                <!-- /.modal -->
             <!-- 主体END -->
         </main>
 
@@ -639,9 +669,9 @@
                                                                      <td class="email-subject text-ellipsis" title="{{index}}">{{index+1}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.id}}">{{item.id}}</td>
                                                                      <td class="email-select">
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm"  data-click="delete" type="submit" data-click-data="{{item.node_id}}">删除设备</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">设备信息</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" id="{{item.node_id}}" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="delete" type="submit" id="{{item.node_id}}" data-target="#deleteWarning" data-click-data="{{item.node_id}}">删除设备</a>
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" id="{{item.node_id}}" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">设备信息</a>   
                                                                      </td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.state}}">{{item.state}}</td>
                                                                  </tr>
@@ -654,6 +684,7 @@
     <!-- ================== END TEMPLATE ================== -->
     <!-- Bootstrap and necessary plugins -->
     <script type="text/javascript" src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-growl/bootstrap-growl.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/tether_js/js/tether.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/pace-0.5.6/pace.min.js" />"></script>
@@ -667,6 +698,7 @@
     <!-- GenesisUI main scripts -->
     <script type="text/javascript" src="<c:url value="/resources/js/app.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/util.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/xigua_local.js" />"></script>
     <!-- Plugins and scripts required by this views -->
     <script type="text/javascript" src="<c:url value="/resources/plugin/artTemplate/template.js" />"></script>
     <!-- Custom scripts required by this view -->

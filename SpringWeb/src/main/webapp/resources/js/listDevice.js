@@ -11,17 +11,24 @@
     function setDeviceTbl(oData) {
         var hHtml = template("device-template", {list: oData});
         $("#device-placeholder").html(hHtml);
+        var key;
+        for(var item in oData) {
+            if(oData[item].state == "离线"){
+                    key =oData[item].node_id;
+                }
+            }
         $("#device a[data-click='edit']").bind("click", changeNameBind);
-        $("#device a[data-click='delete']").bind("click", deleteDeviceBind);
+        $("#device a[data-click='delete']").bind("click", bindDeleteId);
         $("#device a[data-click='get']").bind("click", getSysConfig);
+        $("#deleteDevice").bind("click", deleteDeviceBind);
     }
     //设置模态框sysConfig
     function setSysInfo(oData){
-        $("#hostname").content(oData.hostname);
-        $("#contact").content(oData.contact);
-        $("#cpu-isolate").content(oData.cpuIisolate);
-        $("#location").content(oData.location);
-        $("#load-mode").content(oData.loadMmode);
+            $("#hostname").content(oData.hostname);
+            $("#contact").content(oData.contact);
+            $("#cpu-isolate").content(oData.cpuIisolate);
+            $("#location").content(oData.location);
+            $("#load-mode").content(oData.loadMmode);
     }
     //模态框 修改设备名称 确定按钮按下
     $("#myModal a[data-click='add']").click(function(){
@@ -42,37 +49,39 @@
         };
         $.ajax(oAjaxOption);
     });
-    
-    //删除设备按钮绑定
-    $("#delete_device").click(function() {
-        var start = $("#delete_start").val();;
-        var end = $("#delete_end").val();;
-        var data = new Object();
-        data.start = start;
-        data.end = end;
-        var jsonData = JSON.stringify(data);
+    $("#spawnModal a[data-click='add']").click(function(){
+        var bSuccess = false;
         var oAjaxOption = {
-                type: "delete",
-                url: sContextPath + "/rest/deleteManyDevices.json",
+                type: "post",
+                url: sContextPath + "/rest/spawnNewDevice.json",
+                data: $("form").form2json(),
                 contentType: "application/json",
-                dataType: "text",
-                data:jsonData,
+                dataType: "json",
                 success: function(oData, oStatus) {
-                	initPage();
+                    initPage();
+                    bSuccess = true;
                 },
                 error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
                 },
-                complete: function (oXmlHttpRequest, oStatus) {
+                complete: function(oXmlHttpRequest, oStatus) {
                     $.unblockUI();
+                    initPage();
                 }
-        };
-        $.blockUI(util.getBlockOption());
-        $.ajax(oAjaxOption);
+            };
+            $.blockUI(util.getBlockOption());
+            $.ajax(oAjaxOption);
     });
+    
     //修改设备Id功能
     function changeNameBind(){
     	nodeId = $(this).attr("data-click-data");//获取设备的node_id
     	$("#new_device_id").val("");
+    }
+    function bindDeleteId(){
+        nodeId = $(this).attr("data-click-data");
+        $("#deleteDevice").attr("data-click-data", nodeId); 
+        var ii = $("#deleteDevice").attr("data-click-data");
     }
     //删除设备
     function deleteDeviceBind(){
@@ -87,6 +96,7 @@
                 	initPage();
                 },
                 error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
                     $.unblockUI();
@@ -108,6 +118,7 @@
                     setSysInfo(JSON.parse(oData));
                 },
                 error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
                     $.unblockUI();
@@ -216,6 +227,12 @@
         });
     }
     // 画面初期化
+    function setPage(){
+        initPage();
+        setChart();
+        setChart2();
+        setChart3();
+    }
     function initPage() {
 //        // 画面事件绑定及JS插件渲染
 //        initPageComponent();
@@ -227,11 +244,10 @@
                 dataType: "json",
                 success: function(oData, oStatus) {
                         setDeviceTbl(oData);
-                        setChart();
-                        setChart2();
-                        setChart3();
+                        util.showWarningDialog();
                 },
                 error: function(oData, oStatus, eErrorThrow) { 
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
                     $.unblockUI();
@@ -241,7 +257,9 @@
         $.ajax(oAjaxOption);
     }
     // 画面初期化
-    initPage();
+    setPage();
+    util.showMessage(400);
+    $.growl("This is another test.", { type: 'success' });
     // 每隔2s刷新页面
     /*setInterval(initPage,2000);*/
 });
