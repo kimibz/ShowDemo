@@ -38,6 +38,9 @@
     <spring:url value="/resources/css/style.css" var="style"/>
     <link href="${style}" rel="stylesheet" type="text/css" media="screen, projection"/>
     
+    <spring:url value="/resources/plugin/gritter/css/jquery.gritter.css" var="gritter"/>
+    <link href="${gritter}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    
      
 
     
@@ -689,7 +692,7 @@
     <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/pace-0.5.6/pace.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/blockui/jquery.blockUI.js" />"></script>
-
+    <script type="text/javascript" src="<c:url value="/resources/plugin/gritter/js/jquery.gritter.js" />"></script>
 
     <!-- Plugins and scripts required by all views -->
 <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->

@@ -207,7 +207,51 @@ if ("undefined" === typeof jQuery) {
            });
            return obj;
    };
-    
+// 函数：提醒信息
+   function notifyMessage(status, sticky) {
+       if (status == null || status.statusType == null) {
+           status = {
+                   statusType: "fail",
+                   messages: ["未知错误。"]
+           };
+       }
+       if (status.messages == null || $.isArray(status.messages) == false) {
+           status.messages = [];
+       }
+       if ($.gritter == null) {
+           alert(status.messages.join(""));
+       }
+       var clazz;
+       var title;
+       var image = getContextPath() + "/resources/img/";
+       var statusType = status.statusType.toLowerCase();
+       if ("success" == statusType) {
+           clazz = "gritter-success";
+           title = "信息";
+           image += "success.png";
+       } else if ("info" == statusType) {
+           clazz = "gritter-info";
+           title = "信息";
+           image += "info.png";
+       } else if ("warning" == statusType) {
+           clazz = "gritter-warning";
+           title = "警告";
+           image += "warning.png";
+       } else {
+           clazz = "gritter-danger";
+           title = "错误";
+           image += "danger.png";
+       }
+       var messages = status.messages.join("<br/>");
+       $.gritter.add({
+           title: title,
+           text: messages,
+           image: image,
+           sticky: sticky,
+           time: '',
+           class_name: clazz
+       });
+   }
     namespace.getContextPath = getContextPath;
     namespace.showMessageAt = showMessageAt;
     namespace.showMessage = showMessage;
@@ -218,6 +262,7 @@ if ("undefined" === typeof jQuery) {
     namespace.getView = getView;
     namespace.handleAjaxError = handleAjaxError;
     namespace.showWarningDialog = showWarningDialog;
+    namespace.notifyMessage = notifyMessage;
     
 })(util);
 

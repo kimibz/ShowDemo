@@ -43,6 +43,7 @@
                 	initPage();
                 },
                 error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
                 },
                 complete: function (oXmlHttpRequest, oStatus) {
                 }
@@ -258,8 +259,7 @@
     }
     // 画面初期化
     setPage();
-    util.showMessage(400);
-    $.growl("This is another test.", { type: 'success' });
+//    util.showMessage(500);
     // 每隔2s刷新页面
     /*setInterval(initPage,2000);*/
 });
