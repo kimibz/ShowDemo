@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<!-- 加载一下errors.tag标签所在的tags文件夹 -->  
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %> 
 <%
     String url = request.getRequestURL().toString();
     url = url.substring(0, url.indexOf('/', url.indexOf("//") + 2));
@@ -35,6 +37,9 @@
     
     <spring:url value="/resources/css/style.css" var="style"/>
     <link href="${style}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    
+    <spring:url value="/resources/plugin/gritter/css/jquery.gritter.css" var="gritter"/>
+    <link href="${gritter}" rel="stylesheet" type="text/css" media="screen, projection"/>
     
      
 
@@ -205,7 +210,7 @@
         <!-- Main content 地址栏-->
         
         <main class="main">
-
+            <div id="messagebar-placeholder"></div>
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
@@ -300,7 +305,7 @@
                 </div>
             </div>
             <!-- begin #message -->
-            <div id="messagebar-placeholder"></div>
+            
             <!-- end #message -->
             <!--Modal Begin --> 
                 <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -409,7 +414,7 @@
                                     <div class="row">
                                         <div class="form-group col-sm-8">
                                             <label for="city">host address</label>
-                                            <input type="text" class="form-control" id="address" name="address" placeholder="Enter your host address">
+                                            <input onkeyup="value=value.replace((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))" type="text" class="form-control" id="address" name="address" placeholder="Enter your host address">
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <label for="postal-code">port</label>
@@ -427,7 +432,7 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">取消</a>
-                                <a href="javascript:;" id="btn btn-primary" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
+                                <a href="javascript:;" id="btn btn-primary" type="submit" class="btn btn-sm btn-primary" data-dismiss="modal" data-click="add" data-action-target="accountInfo">确定</a>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -435,6 +440,26 @@
                     <!-- /.modal-dialog -->
                 </div>
             <!--Modal End -->
+            <div class="modal fade" id="deleteWarning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">是否删除</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" id="deleteDevice" data-click-data="" data-dismiss="modal" class="btn btn-primary">确认删除</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+                <!-- /.modal -->
             <!-- 主体END -->
         </main>
 
@@ -647,9 +672,9 @@
                                                                      <td class="email-subject text-ellipsis" title="{{index}}">{{index+1}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.id}}">{{item.id}}</td>
                                                                      <td class="email-select">
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm"  data-click="delete" type="submit" data-click-data="{{item.node_id}}">删除设备</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">设备信息</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" id="{{item.node_id}}" data-click="edit" data-target="#myModal" type="submit" data-click-data="{{item.node_id}}">修改设备名称</a>
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="delete" type="submit" id="{{item.node_id}}" data-target="#deleteWarning" data-click-data="{{item.node_id}}">删除设备</a>
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" id="{{item.node_id}}" data-target="#sliceModal" type="submit" data-click-data="{{item.node_id}}">设备信息</a>   
                                                                      </td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.state}}">{{item.state}}</td>
                                                                  </tr>
@@ -662,11 +687,12 @@
     <!-- ================== END TEMPLATE ================== -->
     <!-- Bootstrap and necessary plugins -->
     <script type="text/javascript" src="<c:url value="/resources/js/jquery.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-growl/bootstrap-growl.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/tether_js/js/tether.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/pace-0.5.6/pace.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/blockui/jquery.blockUI.js" />"></script>
-
+    <script type="text/javascript" src="<c:url value="/resources/plugin/gritter/js/jquery.gritter.js" />"></script>
 
     <!-- Plugins and scripts required by all views -->
 <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> -->

@@ -63,7 +63,33 @@ if ("undefined" === typeof jQuery) {
             showMessageAt($messageBar, status);
         }
     }
-
+ // 函数：显示警告对话框
+    function showWarningDialog(message, buttons, callbacks, sender) {
+        if (callbacks == null
+                || $.isArray(callbacks) == false
+                || callbacks.length < 1
+                || $.fn.teninedialog == null
+                || typeof($.fn.teninedialog) != "function") {
+            return;
+        }
+        if (message == null) {
+            message = "您确定要执行此项操作吗？";
+        }
+        var option = getDialogOption();
+        option.content = message;
+        if(buttons != null){
+            option.otherButtons = buttons.split(",");
+        }
+        option.clickButton = function(dialogClickBtn,modal,index) {
+            if (index == 1) {
+                for (var i = 0; i < callbacks.length; i++) {
+                    callbacks[i].call(sender);
+                }
+            }
+            $(this).closeDialog(modal);
+        };
+        $.teninedialog(option);
+    }
     //去除json数据里面的空属性
     function deleteEmptyProperty(object){
         for (var i in object) {
@@ -181,7 +207,51 @@ if ("undefined" === typeof jQuery) {
            });
            return obj;
    };
-    
+// 函数：提醒信息
+   function notifyMessage(status, sticky) {
+       if (status == null || status.statusType == null) {
+           status = {
+                   statusType: "fail",
+                   messages: ["未知错误。"]
+           };
+       }
+       if (status.messages == null || $.isArray(status.messages) == false) {
+           status.messages = [];
+       }
+       if ($.gritter == null) {
+           alert(status.messages.join(""));
+       }
+       var clazz;
+       var title;
+       var image = getContextPath() + "/resources/img/";
+       var statusType = status.statusType.toLowerCase();
+       if ("success" == statusType) {
+           clazz = "gritter-success";
+           title = "信息";
+           image += "success.png";
+       } else if ("info" == statusType) {
+           clazz = "gritter-info";
+           title = "信息";
+           image += "info.png";
+       } else if ("warning" == statusType) {
+           clazz = "gritter-warning";
+           title = "警告";
+           image += "warning.png";
+       } else {
+           clazz = "gritter-danger";
+           title = "错误";
+           image += "danger.png";
+       }
+       var messages = status.messages.join("<br/>");
+       $.gritter.add({
+           title: title,
+           text: messages,
+           image: image,
+           sticky: sticky,
+           time: '',
+           class_name: clazz
+       });
+   }
     namespace.getContextPath = getContextPath;
     namespace.showMessageAt = showMessageAt;
     namespace.showMessage = showMessage;
@@ -191,6 +261,8 @@ if ("undefined" === typeof jQuery) {
     namespace.serializeArray2obj = serializeArray2obj;
     namespace.getView = getView;
     namespace.handleAjaxError = handleAjaxError;
+    namespace.showWarningDialog = showWarningDialog;
+    namespace.notifyMessage = notifyMessage;
     
 })(util);
 
@@ -234,7 +306,7 @@ $.fn.table2json = function(options) { // 将table内的input（必有有name属�
             if (serializedParams == null || serializedParams.length < 1) {
                 return;
             }
-            var rowData = dayspring.serializeArray2obj(serializedParams);
+            var rowData = util.serializeArray2obj(serializedParams);
             rowDatas.push(rowData);
         });
         return rowDatas;
@@ -257,7 +329,7 @@ $.fn.table2json = function(options) { // 将table内的input（必有有name属�
     }
     if (options.includeForm) {
         var formData = $(":not(form table :input):input").serializeArray(); // 表格以外的表单数据
-        formData = dayspring.serializeArray2obj(formData);
+        formData = util.serializeArray2obj(formData);
         $.extend(output, formData);
     }
     return JSON.stringify(output);

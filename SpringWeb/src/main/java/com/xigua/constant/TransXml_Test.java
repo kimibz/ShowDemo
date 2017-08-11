@@ -11,6 +11,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.ElementCSSInlineStyle;
 
 import com.xigua.model.eventNotification;
 
@@ -24,6 +26,8 @@ public class TransXml_Test {
 				+ "<card>Ethernet0</card></reporting-entity>"
 				+ "<severity>major</severity></event></notification> ";
 		Document document = DocumentHelper.parseText(xmlStr);
+		Document NameSpaceDoc = DocumentHelper.parseText(xmlStr);  
+
 		eventNotification event = new eventNotification();
 		Element root = document.getRootElement();
 //		event.setEvent_class(root.elements("severtiy"));
@@ -35,6 +39,7 @@ public class TransXml_Test {
 		event.setEvent_class(mapEle.get("event-class").toString());
 		System.out.println(event.getEvent_class());
 		System.out.println(xmlStr);
+		System.out.println(NameSpaceDoc.asXML());
 
 	}
 	private static Map<String, Object> getAllElements(List<Element> childElements,Map<String,Object> mapEle) {
