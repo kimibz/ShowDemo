@@ -255,9 +255,9 @@
     // 画面初期化
     function setPage(){
         initPage();
-        setChart();
-        setChart2();
-        setChart3();
+//        setChart();
+//        setChart2();
+//        setChart3();
     }
     function initPage() {
 //        // 画面事件绑定及JS插件渲染

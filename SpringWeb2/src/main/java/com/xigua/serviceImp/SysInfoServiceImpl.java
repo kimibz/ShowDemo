@@ -26,18 +26,21 @@ public class SysInfoServiceImpl implements SysInfoService{
     @Override
     public SysConfig getConfig(String device) {
         // TODO Auto-generated method stub
-        String url = Ipaddress+"/restconf/config/"
-                + "opendaylight-inventory:nodes/node/"
+//        String url = Ipaddress+"/restconf/config/"
+//                + "opendaylight-inventory:nodes/node/"
+//                + device +"/yang-ext:mount/zxr10-pm-sys:configuration/sys/";
+        String url = Ipaddress+"/restconf/config/network-topology:network-topology"
+                + "/topology/topology-netconf/node/"
                 + device +"/yang-ext:mount/zxr10-pm-sys:configuration/sys/";
         String result = HttpRequestUtil.Get(url);
         SysConfig config  = new SysConfig();
         if(result != null){
             JSONObject object = JSON.parseObject(result);
             JSONObject sys = (JSONObject) object.get("sys");
-            config.setContact(sys.getString("contact"));
-            config.setLocation(sys.getString("location"));
+//            config.setContact(sys.getString("contact"));
+//            config.setLocation(sys.getString("location"));
             config.setCpuIisolate(sys.getString("cpu-isolate"));
-            config.setHostname(sys.getString("hostname"));
+//            config.setHostname(sys.getString("hostname"));
             config.setLoadMmode(sys.getString("load-mode"));
             return config;
         }else{

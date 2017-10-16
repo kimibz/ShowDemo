@@ -13,6 +13,7 @@ public class PortAndUserInfo implements Serializable{
     
     private List<String> port = new ArrayList<String>();
     private List<String> user = new ArrayList<String>();
+    private List<String> cpu = new ArrayList<String>();
     public List<String> getPort() {
         return port;
     }
@@ -24,6 +25,12 @@ public class PortAndUserInfo implements Serializable{
     }
     public void setUser(List<String> user) {
         this.user = user;
+    }
+    public List<String> getCpu() {
+        return cpu;
+    }
+    public void setCpu(List<String> cpu) {
+        this.cpu = cpu;
     }
     
     

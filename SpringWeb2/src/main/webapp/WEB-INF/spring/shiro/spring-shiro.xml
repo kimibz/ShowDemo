@@ -35,7 +35,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/listDevice" />
+		<property name="successUrl" value="/blank" />
 		<property name="unauthorizedUrl" value="WEB-INF/views/500.jsp" />
 		<property name="filterChainDefinitions">
 			<value>

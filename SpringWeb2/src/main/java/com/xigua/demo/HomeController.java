@@ -44,7 +44,7 @@ public class HomeController {
 		return "device/list";
 	}
 	
-	@RequestMapping(value = "/testBoot", method = RequestMethod.GET)
+	@RequestMapping(value = "/blank", method = RequestMethod.GET)
 	public String listTestView() {
 		return "device/BootTest";
 	}

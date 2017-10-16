@@ -261,6 +261,21 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         HttpRequestUtil.Put(url, entity);
     }
 
+    @Override
+    public List<String> getCpuList(String oltId) {
+        // TODO Auto-generated method stub
+        String url = Ipaddress+"/restconf/operational/network-topology:network-topology"
+                + "/topology/topology-netconf/node/"+oltId+"/yang-ext:mount/zxr10-pm-sys:state/sys/cpus";
+        String jsonStr = HttpRequestUtil.Get(url);
+        JSONObject obj = JSON.parseObject(jsonStr);
+        JSONArray arr = obj.getJSONObject("cpus").getJSONArray("cpu");
+        List<String> cpu = new ArrayList<String>();
+        for(int i=0; i<arr.size() ; i++) {
+            cpu.add(arr.getJSONObject(i).getString("cpuname"));
+        }
+        return cpu;
+    }
+
 
 
 }

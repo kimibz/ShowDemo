@@ -27,10 +27,10 @@ public class vlanServiceImpl implements vlanService{
         JSONObject OBJ = JSON.parseObject(EditVlan);
         JSONObject arr = OBJ.getJSONObject("zxr10-vlan-dev-c600:if-vlan").
                 getJSONArray("zxr10-vlan-dev-c600:if-vlan").getJSONObject(0);
-        arr.put("zxr10-vlan-dev-c600:mode", "tag");
-        arr.put("zxr10-vlan-dev-c600:if-sub-index", "0");
-        arr.put("zxr10-vlan-dev-c600:vlan-info", "100");
-        arr.put("zxr10-vlan-dev-c600:if-index", "285282818");
+        arr.put("zxr10-vlan-dev-c600:mode", edit.getMode());
+        arr.put("zxr10-vlan-dev-c600:if-sub-index", edit.getIf_sub_index());
+        arr.put("zxr10-vlan-dev-c600:vlan-info", edit.getVlan_info());
+        arr.put("zxr10-vlan-dev-c600:if-index", edit.getIf_index());
         LOG.info("开始修改"+vndName+"上联口端口");
         HttpRequestUtil.Put(url, OBJ.toJSONString());
     }

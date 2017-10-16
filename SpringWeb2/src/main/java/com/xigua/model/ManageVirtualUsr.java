@@ -13,6 +13,8 @@ public class ManageVirtualUsr implements Serializable{
     private String oltId;
     private String virtualName;
     private String user;
+    private String status;
+    
     public Integer getId() {
         return id;
     }
@@ -36,6 +38,12 @@ public class ManageVirtualUsr implements Serializable{
     }
     public void setUser(String user) {
         this.user = user;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

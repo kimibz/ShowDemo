@@ -136,7 +136,9 @@ public class NetconfServiceImp implements NetconfService{
                         ifConnected = "在线";
                     };
                     //不输出controller-config的内容,因为这是原有控制器的有的能力。
+                    //不输出虚拟切片"vDevice"
                     if(!(id.equals("controller-config")))
+                        if(!(id.contains("vDevice")))
                         map.put(id, ifConnected);
                 }
             }

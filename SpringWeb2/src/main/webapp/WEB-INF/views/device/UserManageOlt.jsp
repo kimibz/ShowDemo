@@ -444,7 +444,7 @@
                                                                  <tr>
                                                                      <td class="email-subject text-ellipsis" title="{{item.vnd_id}}">{{item.id}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.vnd_name}}">{{item.virtualName}}</td>
-                                                                     <td class="email-subject text-ellipsis" title="{{item.vnd_status}}">{{item.user}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.vnd_status}}">{{item.status}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.belongTo}}">{{item.user}}</td>
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="get" id="{{item.virtualName}}" data-target="#showDetail" data-click-data="{{item.virtualName}}">切片信息</a>

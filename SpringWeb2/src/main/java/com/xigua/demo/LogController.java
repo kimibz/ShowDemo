@@ -79,7 +79,7 @@ public class LogController {
 				currentUser.login(token);//验证角色和权限
 			}
 			System.out.println("User verification success!");
-			result = "device/listDevice";//验证成功
+			result = "device/BootTest";//验证成功
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			result = "login.do";//验证失败

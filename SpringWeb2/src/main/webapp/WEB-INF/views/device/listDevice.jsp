@@ -207,61 +207,62 @@
                         </div>
                     </div>
                 </div>
-                <div class="animated fadeIn">
-                    <div class="row">
-                        <div class=" col-4 ">
-                            <div class="card">
-                                <div class="card-header">
-                                    Line Chart
-                                    <div class="card-actions">
-                                        <a href="http://www.chartjs.org">
-                                            <small class="text-muted">docs</small>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-block">
-                                    <div class="chart-wrapper">
-                                        <canvas id="myChart" width="400" height="400"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" col-4 ">
-                            <div class="card">
-                                <div class="card-header">
-                                     Polar Area Chart
-                                    <div class="card-actions">
-                                        <a href="http://www.chartjs.org">
-                                            <small class="text-muted">docs</small>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-block">
-                                    <div class="chart-wrapper">
-                                     <canvas id="myChart2"></canvas>
-                                    </div>
-                              </div>
-                            </div>
-                        </div>
-                        <div class=" col-4 ">
-                            <div class="card">
-                                <div class="card-header">
-                                     Pie Chart
-                                    <div class="card-actions">
-                                        <a href="http://www.chartjs.org">
-                                            <small class="text-muted">docs</small>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-block">
-                                    <div class="chart-wrapper">
-                                     <canvas id="myChart3"></canvas>
-                                    </div>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- 饼图树状图 -->
+<!--                 <div class="animated fadeIn"> -->
+<!--                     <div class="row"> -->
+<!--                         <div class=" col-4 "> -->
+<!--                             <div class="card"> -->
+<!--                                 <div class="card-header"> -->
+<!--                                     Line Chart -->
+<!--                                     <div class="card-actions"> -->
+<!--                                         <a href="http://www.chartjs.org"> -->
+<!--                                             <small class="text-muted">docs</small> -->
+<!--                                         </a> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="card-block"> -->
+<!--                                     <div class="chart-wrapper"> -->
+<!--                                         <canvas id="myChart" width="400" height="400"></canvas> --%>
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                         <div class=" col-4 "> -->
+<!--                             <div class="card"> -->
+<!--                                 <div class="card-header"> -->
+<!--                                      Polar Area Chart -->
+<!--                                     <div class="card-actions"> -->
+<!--                                         <a href="http://www.chartjs.org"> -->
+<!--                                             <small class="text-muted">docs</small> -->
+<!--                                         </a> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="card-block"> -->
+<!--                                     <div class="chart-wrapper"> -->
+<!--                                      <canvas id="myChart2"></canvas> --%>
+<!--                                     </div> -->
+<!--                               </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                         <div class=" col-4 "> -->
+<!--                             <div class="card"> -->
+<!--                                 <div class="card-header"> -->
+<!--                                      Pie Chart -->
+<!--                                     <div class="card-actions"> -->
+<!--                                         <a href="http://www.chartjs.org"> -->
+<!--                                             <small class="text-muted">docs</small> -->
+<!--                                         </a> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="card-block"> -->
+<!--                                     <div class="chart-wrapper"> -->
+<!--                                      <canvas id="myChart3"></canvas> --%>
+<!--                                     </div> -->
+<!--                               </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
             </div>
             <!-- begin #message -->
             

@@ -16,6 +16,8 @@ public interface virtualDeviceService {
     void deleteVirtual(String oltId,String vndName);
     //获取可用PORT资源列表
     List<Port> getInterfaceList(String oltId);
+    //获取可用CPU资源列表
+    List<String> getCpuList(String oltId);
     //在OLTID下新增新的切片
     void spawnNewSlice (String oltId,SpawnNewVirDevice info);
     //删除虚拟切片下的某个PON口资源

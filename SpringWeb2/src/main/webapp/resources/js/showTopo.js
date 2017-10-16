@@ -98,40 +98,43 @@
         var oltId = id-1;
         nodes.push({id: oltId, label: olt1.name});
         nodes[oltId]["level"] = 0;
-        for (var i=0; i<olt1.volt.length;i++) {
-            nodes.push({id: id, label: olt1.volt[i].id});
-            edges.push({from: 0, to:id});
-            nodes[id]["level"] = 1;
-            var voltId = id;
-            id++
-            if(olt1.volt[i].slot != null){
-                for(var j=0; j<olt1.volt[i].slot.length;j++){
-                    nodes.push({id: id, label: olt1.volt[i].slot[j].id});
-                    edges.push({from: voltId, to:id}); 
-                    nodes[id]["level"] = 2; 
-                    var slotId = id;
-                    id++;
-                    if(olt1.volt[i].slot[j].pon != null){
-                        for(var k=0;k<olt1.volt[i].slot[j].pon.length;k++){
-                            nodes.push({id: id, label: olt1.volt[i].slot[j].pon[k].id});
-                            nodes[id]["level"] = 3;
-                            edges.push({from: slotId, to:id});
-                            var ponId = id;
-                            id++;
-                            if(olt1.volt[i].slot[j].pon[k].onu != null){
-                                for(var m=0;m<olt1.volt[i].slot[j].pon[k].onu.length;m++){
-                                    nodes.push({id: id, label: olt1.volt[i].slot[j].pon[k].onu[m].id});
-                                    nodes[id]["level"] = 4;
-                                    edges.push({from: ponId, to:id});
-                                    id++;
+        if(olt1.volt != null){
+            for (var i=0; i<olt1.volt.length;i++) {
+                nodes.push({id: id, label: olt1.volt[i].id});
+                edges.push({from: 0, to:id});
+                nodes[id]["level"] = 1;
+                var voltId = id;
+                id++
+                if(olt1.volt[i].slot != null){
+                    for(var j=0; j<olt1.volt[i].slot.length;j++){
+                        nodes.push({id: id, label: olt1.volt[i].slot[j].id});
+                        edges.push({from: voltId, to:id}); 
+                        nodes[id]["level"] = 2; 
+                        var slotId = id;
+                        id++;
+                        if(olt1.volt[i].slot[j].pon != null){
+                            for(var k=0;k<olt1.volt[i].slot[j].pon.length;k++){
+                                nodes.push({id: id, label: olt1.volt[i].slot[j].pon[k].id});
+                                nodes[id]["level"] = 3;
+                                edges.push({from: slotId, to:id});
+                                var ponId = id;
+                                id++;
+                                if(olt1.volt[i].slot[j].pon[k].onu != null){
+                                    for(var m=0;m<olt1.volt[i].slot[j].pon[k].onu.length;m++){
+                                        nodes.push({id: id, label: olt1.volt[i].slot[j].pon[k].onu[m].id});
+                                        nodes[id]["level"] = 4;
+                                        edges.push({from: ponId, to:id});
+                                        id++;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            id++;
         }
-        id++;
+        
     }
        function destroy() {
         if (network !== null) {

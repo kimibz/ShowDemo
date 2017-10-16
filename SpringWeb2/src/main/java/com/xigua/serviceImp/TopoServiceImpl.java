@@ -35,8 +35,16 @@ public class TopoServiceImpl implements TopoService{
         // TODO Auto-generated method stub
         List<TopoInfo> result = new ArrayList<TopoInfo>();
         List<String> oltList = getAllOltId();
+        List<ManageVirtualUsr> list = new ArrayList<ManageVirtualUsr>();
         //获取该用户下的设备列表
-        List<ManageVirtualUsr> list = dao.getVirtualList(username);
+        if(username == "admin") {
+            ManageVirtualUsr usr = new ManageVirtualUsr();
+            usr.setOltId("zte");
+            list.add(usr);
+        }
+        else {
+            list = dao.getVirtualList(username);
+        }
         LOG.info(""+list.size());
         for(String oltId : oltList){
             TopoInfo topo = new TopoInfo();
@@ -45,41 +53,47 @@ public class TopoServiceImpl implements TopoService{
                     + "/topology/topology-netconf/node/"+oltId+"/yang-ext:mount/"
                             + "zxr10-pm-lr:configuration/virtual-network-device";
             String jsonResult = HttpRequestUtil.Get(url);
-            JSONObject object = JSON.parseObject(jsonResult).getJSONObject("virtual-network-device");
-            JSONArray virtualDeviceList = JSON.parseArray(object.
-                    get("virtual-network-device-config-vndx").toString());
-            List<VOLT> voltList = new ArrayList<VOLT>();
-            for(int i=0; i < virtualDeviceList.size() ; i++){
-                JSONObject deviceJSON = JSON.parseObject(virtualDeviceList.get(i)+"");
-                LOG.info("收到JSON为:"+deviceJSON.toJSONString());
-                VOLT volt = new VOLT();
-                List<slot> slotList = new ArrayList<slot>();
-                List<PortInfo> ponList = new ArrayList<PortInfo>();
-                volt.setId(deviceJSON.getString("vndx-name"));
-                JSONArray assign_interface = deviceJSON.getJSONArray("assign-interface");
-                for(int j=0; j<assign_interface.size() ; j++){
-                    slot slotOBJ =new slot();
-                    PortInfo port = new PortInfo();
-                    String interfaceName = assign_interface.
-                            getJSONObject(j).get("interface-name").toString();
-//                    String type = interfaceName.substring(0, interfaceName.indexOf("-"));
-                    String slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
-                    String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length()); 
-                    String slotId = "槽"+slot;
-                    port.setInterfaceName(interfaceName);
-                    port.setSlot(slotId);
-                    port.setPortNum(portNo);
-                    ponList.add(port);
-                    slotOBJ.setId(slotId);
-                    if(ifNotExistSlot(slotList,slotId))
-                    slotList.add(slotOBJ);
-                }
-                slotList = dividePort(ponList,slotList);
-                volt.setSlot(slotList);
-                voltList.add(volt);
+            LOG.info(jsonResult);
+            if(jsonResult == null) {
+                topo.setName(oltId);
             }
-            topo.setVolt(voltList);
-            topo.setName(oltId);
+            else {
+                JSONObject object = JSON.parseObject(jsonResult).getJSONObject("virtual-network-device");
+                JSONArray virtualDeviceList = JSON.parseArray(object.
+                        get("virtual-network-device-config-vndx").toString());
+                List<VOLT> voltList = new ArrayList<VOLT>();
+                for(int i=0; i < virtualDeviceList.size() ; i++){
+                    JSONObject deviceJSON = JSON.parseObject(virtualDeviceList.get(i)+"");
+                    LOG.info("收到JSON为:"+deviceJSON.toJSONString());
+                    VOLT volt = new VOLT();
+                    List<slot> slotList = new ArrayList<slot>();
+                    List<PortInfo> ponList = new ArrayList<PortInfo>();
+                    volt.setId(deviceJSON.getString("vndx-name"));
+                    JSONArray assign_interface = deviceJSON.getJSONArray("assign-interface");
+                    for(int j=0; j<assign_interface.size() ; j++){
+                        slot slotOBJ =new slot();
+                        PortInfo port = new PortInfo();
+                        String interfaceName = assign_interface.
+                                getJSONObject(j).get("interface-name").toString();
+//                    String type = interfaceName.substring(0, interfaceName.indexOf("-"));
+                        String slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
+                        String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length()); 
+                        String slotId = "槽"+slot;
+                        port.setInterfaceName(interfaceName);
+                        port.setSlot(slotId);
+                        port.setPortNum(portNo);
+                        ponList.add(port);
+                        slotOBJ.setId(slotId);
+                        if(ifNotExistSlot(slotList,slotId))
+                            slotList.add(slotOBJ);
+                    }
+                    slotList = dividePort(ponList,slotList);
+                    volt.setSlot(slotList);
+                    voltList.add(volt);
+                }
+                topo.setVolt(voltList);
+                topo.setName(oltId);
+            }
             result.add(topo);
         }
         return result;

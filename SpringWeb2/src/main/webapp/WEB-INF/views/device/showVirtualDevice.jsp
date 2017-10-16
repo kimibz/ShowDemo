@@ -228,7 +228,7 @@
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label" for="textarea-input">切片描述:</label>
                                             <div class="col-md-9">
-                                                <input type="text" id="description" name="description" class="form-control" placeholder="description">
+                                                <input type="text" id="description" name="description" class="form-control" placeholder="description" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')">
                                                 <span class="text-warning small">切片描述</span>
                                             </div>
                                         </div>

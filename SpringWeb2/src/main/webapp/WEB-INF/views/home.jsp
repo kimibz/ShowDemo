@@ -15,6 +15,7 @@
    
     <%-- <%-- <P>  The time on the server is ${serverTime}. </P>
     <p>  ${testData}.</p> --%>
+    <a href="http://localhost:8081/demo/listDevice">返回</a>
 
     
 </html>

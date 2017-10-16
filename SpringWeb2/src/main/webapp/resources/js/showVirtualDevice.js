@@ -130,19 +130,24 @@
     function setSelectValue(oData){
         $('#addResource').empty();//清空OPTION
         $('#assign_interface').empty();//清空OPTION
-//        console.log("1111111");
+        $('#depoly_mpu').empty();//清空OPTION
         $('#belongTo').empty();//清空OPTION
         $('#belongTo').append("<option value='' disabled selected>请选择唯一用户</option>");//给用户选择框添加PLACEHOLDER
         var portList = new Array();
         var userList = new Array();
+        var cpuList = new Array();
         portList = oData.port;
         userList = oData.user;
+        cpuList = oData.cpu;
         for (var x in portList){
             $('#assign_interface').append("<option value='"+portList[x]+"'>"+portList[x]+"</option>");
             $('#addResource').append("<option value='"+portList[x]+"'>"+portList[x]+"</option>");
         }
         for (var y in userList){
             $('#belongTo').append("<option value='"+userList[y]+"'>"+userList[y]+"</option>");
+        }
+        for (var z in cpuList){
+            $('#depoly_mpu').append("<option value='"+cpuList[z]+"'>"+cpuList[z]+"</option>");
         }
     }
     //获取当前OLT可用PON口资源以及所属OLT的Id并赋值到FORM当中

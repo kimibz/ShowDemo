@@ -68,6 +68,7 @@ public class RestVirtualController {
         List<Port> interfaceList = service.getInterfaceList(oltId);
         List<String> userList = UserService.getAllUser(0);//获取role=0的用户
         List<String> portList = new ArrayList<String>();
+        List<String> cpuList = service.getCpuList(oltId);
         LOG.info(""+userList.size());
         for(Port port : interfaceList){
             portList.add(port.getPortname());
@@ -75,6 +76,7 @@ public class RestVirtualController {
         PortAndUserInfo info = new PortAndUserInfo();
         info.setPort(portList);
         info.setUser(userList);
+        info.setCpu(cpuList);
         return info;
     }
     /** 在oltId下新增新的虚拟切片 */
