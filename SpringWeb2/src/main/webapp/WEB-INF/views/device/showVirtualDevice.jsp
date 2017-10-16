@@ -333,14 +333,14 @@
 <!--                                 <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name"> -->
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label label-wide">部署的MPU: </label>
-                                        <label class="col-md-3 form-label label-wide text-info"><span id="deploy_mpu"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">描述: </label>
+                                        <label class="col-md-3 form-label label-wide text-info"><span id="subscribe"></span><span>&nbsp;</span><span id="limit"></span></label>
                                         <label class="col-md-2 control-label label-wide">状态: </label>
                                         <label class="text-info"><span id="status"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div>
                                      <div class="form-group">
-                                        <label class="col-md-2 control-label label-wide">描述: </label>
-                                        <label class="col-md-3 form-label label-wide text-info"><span id="subscribe"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">部署的MPU: </label>
+                                        <label class="col-md-8 form-label label-wide text-info"><span id="deploy_mpu"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div> 
                                      <div class="form-group">
                                         <div class="panel panel-default">

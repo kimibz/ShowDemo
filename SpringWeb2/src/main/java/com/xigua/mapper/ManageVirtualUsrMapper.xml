@@ -26,4 +26,13 @@
         from managevirtualusr
         where user = #{user,jdbcType=VARCHAR} 
     </select>
+    <select id="getId" parameterType="String" resultType="Integer" >
+        SELECT id
+        from managevirtualusr
+        where oltId = #{oltId,jdbcType=VARCHAR} 
+        and virtualName = #{virtualName,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteVirtualByUsr" parameterType="String"> 
+        delete from managevirtualusr where id = #{id,jdbcType=INTEGER}  
+    </delete>
 </mapper>

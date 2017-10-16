@@ -147,6 +147,8 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
                 + "/yang-ext:mount/zxr10-pm-lr:configuration/virtual-network-device/virtual-network-device-config-vndx/"
                 + vndName;
         HttpRequestUtil.Delete(url);
+        //删除数据库数据
+        manageDao.deleteVirtualByUsr(manageDao.getId(oltId, vndName));
     }
 
     @Override

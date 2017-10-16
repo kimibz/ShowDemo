@@ -14,4 +14,8 @@ public interface ManageVirtualUsrDao {
     List<ManageVirtualUsr> getVirtualList(String username);
     //将虚拟切片分配给用户
     void SetVirtualToUser(@Param("oltId")String oltId,@Param("virtualName")String virtualName,@Param("user")String user);
+    //获取ID
+    int getId(@Param("oltId")String oltId,@Param("virtualName")String virtualName);
+    //删除数据的切片数据
+    void deleteVirtualByUsr(Integer id);
 }
