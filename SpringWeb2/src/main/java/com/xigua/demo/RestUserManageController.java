@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xigua.model.ManageVirtualUsr;
+import com.xigua.model.usrOLTManageModel;
 import com.xigua.service.UserMangeService;
 @Controller
 public class RestUserManageController {
@@ -30,5 +31,14 @@ public class RestUserManageController {
         List<ManageVirtualUsr> list = new ArrayList<ManageVirtualUsr>();
         list = service.getAllDevice(username);
         return list;
+    }
+    /*
+     * 返回该用户所选的虚拟设备的状态信息
+     */
+    @RequestMapping(value = "/rest/oltUsrManagement/{oltId}.json", method = RequestMethod.GET)
+    @ResponseBody
+    public  usrOLTManageModel getDeviceInfo(@PathVariable String oltId){
+        usrOLTManageModel model = service.getMangeInfo(oltId);
+        return model;
     }
 }

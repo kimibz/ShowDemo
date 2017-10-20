@@ -70,7 +70,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	    	permissions.add("configure");
 	    	permissions.add("delete");//添加权限,对应到index.jsp
 	    }else{
-	    	roleNames.add("administrator");
+	    	roleNames.add("user");
 	    	permissions.add("configure");
 	    	permissions.add("service");
 	    }

@@ -1,7 +1,6 @@
 package com.xigua.constant;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +10,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.ElementCSSInlineStyle;
 
-import com.xigua.model.eventNotification;
 
 public class TransXml_Test {
 	private static final Logger LOG = LoggerFactory.getLogger(TransXml_Test.class);
@@ -28,7 +24,6 @@ public class TransXml_Test {
 		Document document = DocumentHelper.parseText(xmlStr);
 		Document NameSpaceDoc = DocumentHelper.parseText(xmlStr);  
 
-		eventNotification event = new eventNotification();
 		Element root = document.getRootElement();
 //		event.setEvent_class(root.elements("severtiy"));
 		List<Element> childElements = root.elements();
@@ -36,8 +31,6 @@ public class TransXml_Test {
 		Map<String,Object> mapEle = new HashMap<String, Object>();
 		//遍历子节点
 		mapEle = getAllElements(childElements,mapEle);
-		event.setEvent_class(mapEle.get("event-class").toString());
-		System.out.println(event.getEvent_class());
 		System.out.println(xmlStr);
 		System.out.println(NameSpaceDoc.asXML());
 

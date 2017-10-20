@@ -636,7 +636,6 @@
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" id="{{item.node_id}}" data-click="edit" data-target="#myModal"  data-click-data="{{item.node_id}}">修改设备名称</a>
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="delete" id="{{item.node_id}}" data-target="#deleteWarning" data-click-data="{{item.node_id}}">删除设备</a>
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" id="{{item.node_id}}" data-target="#sliceModal"  data-click-data="{{item.node_id}}">设备信息</a>
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="getInfo" id="{{item.node_id}}" data-click-data="{{item.node_id}}">切片信息</a>
                                                                      </td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.state}}">{{item.state}}</td>
@@ -646,6 +645,7 @@
                                                          </table>
                                                      </div>
         </script>
+        <!-- <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-click="get" id="{{item.node_id}}" data-target="#sliceModal"  data-click-data="{{item.node_id}}">设备信息</a> -->
 
     <!-- ================== END TEMPLATE ================== -->
     <!-- Bootstrap and necessary plugins -->

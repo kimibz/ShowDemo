@@ -12,6 +12,7 @@
     var directionInput = document.getElementById("direction"); 
     var network = null;
     var id = 1;
+    //如果是虚拟切片 name可以设置为控制器
 //    var olt = {
 //            "name": "olt1",
 //            "volt":[

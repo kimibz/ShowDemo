@@ -21,6 +21,7 @@ import com.xigua.model.PortInfo;
 import com.xigua.model.SpawnNewVirDevice;
 import com.xigua.model.virtualDevice;
 import com.xigua.model.virtualDeviceInfo;
+import com.xigua.model.Topo.slot;
 import com.xigua.service.virtualDeviceService;
 import com.xigua.util.HttpRequestUtil;
 
@@ -119,19 +120,42 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
                 String interfaceName = assign_interface.
                         getJSONObject(j).get("interface-name").toString();
                 PortInfo port = new PortInfo();
-                String type = interfaceName.substring(0, interfaceName.indexOf("-"));
+//                String type = interfaceName.substring(0, interfaceName.indexOf("-"));
                 String shelf =interfaceName.substring(interfaceName.indexOf("-")+1, interfaceName.indexOf("/"));
                 String slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
+                if(slot.equals("17")) {
+                    port.setSpeed("10000");
+                    port.setType("上联口");
+                }else {
+                    port.setSpeed("0");
+                    port.setType("PON口");
+                }
                 String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
                 port.setPortNum(portNo);
                 port.setShelf(shelf);
-                port.setType(type);
                 port.setSlot(slot);
                 port.setInterfaceName(interfaceName);
                 portList.add(port);
-                LOG.info(port.getPortNum());
             }
             info.setVndName(vndName);
+           //根据shelf&&portNumber正序排列portList
+            Collections.sort(portList,new Comparator<PortInfo>(){
+                public int compare(PortInfo arg0, PortInfo arg1) {
+                    int hits0 = Integer.parseInt(arg0.getSlot());  
+                    int hits1 = Integer.parseInt(arg1.getSlot());
+                    int portNo0 = Integer.parseInt(arg0.getPortNum());
+                    int portNo1 = Integer.parseInt(arg1.getPortNum());
+                    if (hits1 > hits0) {    
+                        return -1;  
+                    } else if ((hits1 == hits0) && (portNo1 > portNo0)) {  
+                        return -1;
+                    }  else if(hits1 == hits0) {
+                        return 0;
+                    }  else {  
+                        return 1;  
+                    } 
+                }
+            });
             info.setAssigned_interface(portList);
         }
         return info;
@@ -202,7 +226,7 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         String user = info.getBelongTo();
         String vndName = info.getVnd_name();
         manageDao.SetVirtualToUser(oltId, vndName, user);
-        //向控制器发送请求
+        //向控制器发送建立连接请求
         String url = Ipaddress+"/restconf/config/"
                 + "network-topology:network-topology/topology/topology-netconf/node/"
                 + oltId +"/yang-ext:mount/zxr10-pm-lr:configuration/virtual-network-device";
@@ -277,7 +301,35 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         }
         return cpu;
     }
-
+    /*
+     * nodeId = vDevice_{oltId}_{vndName}
+     * 与控制器建立新的连接
+     */
+    void spawnNewConnect(String oltId,String vndName) {
+        String url = Ipaddress+"/restconf/config/network-topology:network-topology/"
+                + "topology/topology-netconf/node/";
+        String device_name = "vDevice_" + oltId +"_"+vndName;
+        String e_url = url + device_name;
+        String deviceJson = JSONTemplate.SpawnDeviceJSON;
+        JSONObject object = JSON.parseObject(deviceJson);
+        JSONArray arr =object.getJSONArray("node");
+        JSONObject device_obj = JSON.parseObject(arr.get(0)+"");
+        //添加新数据
+        device_obj.put("netconf-node-topology:host", "116.228.53.163");
+        device_obj.put("node-id", device_name);
+        device_obj.put("password", "zte");
+        device_obj.put("netconf-node-topology:username", "zte");
+        device_obj.put("netconf-node-topology:port", 830);
+        device_obj.put("netconf-node-topology:tcp-only", false);
+        device_obj.put("netconf-node-topology:keepalive-delay", 0);
+        device_obj.put("host-tracker-service:id", device_name);
+        arr.clear();
+        arr.add(0, device_obj);
+        object.put("node", arr);
+        String entity = object.toJSONString();
+        HttpRequestUtil.Put(e_url, entity);
+    }
 
 
 }
+

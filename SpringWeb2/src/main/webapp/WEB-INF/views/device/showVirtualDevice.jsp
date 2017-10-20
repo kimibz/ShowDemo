@@ -618,8 +618,9 @@
                                                                  <tr>
                                                                      <td style="width: 10%;">ID</td>
                                                                      <td style="width: 15%;">槽位</td>
-                                                                     <td style="width: 15%;">线卡</td>
+                                                                     <td style="width: 15%;">板卡</td>
                                                                      <td style="width: 15%;">端口号</td>
+                                                                     <td style="width: 15%;">类型</td>
                                                                      <td style="width: 15%;">速率</td>
                                                                      <td style="width: 15%;">操作</td>
                                                                  </tr>
@@ -631,7 +632,8 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.shelf}}">{{item.shelf}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.slot}}">{{item.slot}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.portNum}}">{{item.portNum}}</td>
-                                                                     <td class="email-subject text-ellipsis" title="{{10000}}">{{10000}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.type}}">{{item.type}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.speed}}">{{item.speed}}</td>
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#ConfirmDelete" data-click="delete" id="{{item.node_id}}"data-click-data="{{item.interfaceName}}">删除</a>   
                                                                      </td>

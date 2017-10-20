@@ -14,7 +14,8 @@
         var key;
         for(var item in oData) {
             if(oData[item].state == "离线"){
-                    key =oData[item].node_id;
+                    key =oData[item].node_id +"Info";
+                    $("#"+key).attr("class","btn btn-outline btn-sm disabled");
                 }
             }
         $("#device a[data-click='edit']").bind("click", changeNameBind);

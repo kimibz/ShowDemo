@@ -28,35 +28,6 @@
         $("#device-placeholder").html(hHtml);
         $("#device a[data-click='get']").bind("click", getVirtualInfo);
     }
-    //关闭/运行切片确认键按下
-    $("#Switch").click(function() {
-          var vnd_name = $(this).attr("data-click-data");
-          //关闭值为0 开启为1
-          var statusChange = "1";
-          var title = $("#SwitchModalTitle").text();
-          if($("#SwitchModalTitle").text() == "确认关闭切片?"){
-              var statusChange = "0";
-          }
-          var oAjaxOption = {
-                type: "put",
-                url: sContextPath + "/rest/"+oltId+"/changeStatus/"+vnd_name+".json",
-                contentType: "application/json",
-                data: statusChange,
-                dataType: "json",
-                success: function(oData, oStatus) {
-                    getVirtualList();
-                },
-                error: function(oData, oStatus, eErrorThrow) {
-                    util.handleAjaxError(oData, oStatus, eErrorThrow);
-                },
-                complete: function (oXmlHttpRequest, oStatus) {
-                    getVirtualList();
-                    $.unblockUI();
-                }
-        };
-        $.blockUI(util.getBlockOption());
-        $.ajax(oAjaxOption);
-    });
     //获取该用户下切片的ID,NAME和STATUS列表
     function getVirtualList(){
         var oAjaxOption = {
@@ -80,13 +51,15 @@
     //获取该虚拟切片的pon口信息等
     function getVirtualInfo(){
         var vnd_name = $(this).attr("data-click-data");
+        var index = vnd_name.lastIndexOf("_");
+        var nodeId = "vDevice_"+vnd_name.substring(0,index)+"_"+vnd_name.substring(index+1,vnd_name.length);
         var oAjaxOption = {
                 type: "get",
-                url: sContextPath + "/rest/"+oltId+"/VirtualInfo/"+vnd_name+".json",
+                url: sContextPath + "/rest/oltUsrManagement/"+ nodeId +".json",
                 contentType: "application/json",
                 dataType: "text",
                 success: function(oData, oStatus) {
-                    setInterfaceTable(JSON.parse(oData));
+                    setInterfaceTable(JSON.parse(oData),vnd_name);
                 },
                 error: function(oData, oStatus, eErrorThrow) {
                     util.handleAjaxError(oData, oStatus, eErrorThrow);
@@ -121,15 +94,28 @@
         $.ajax(oAjaxOption);
     }
     //给模态框的interface表格赋值
-    function setInterfaceTable(oData){
-        var hHtml = template("vDevice-template", {list: oData.assigned_interface});
+    function setInterfaceTable(oData,vnd_name){
+        var x;
+        var portList = oData.portList;
+        //修改TYPE 并且当type=1116时,
+        for(x in portList){
+            var type = portList[x].porttype;
+            if(type=="1116"){
+                portList[x].porttype = "PON口";
+            }else if(type=="132"){
+                portList[x].porttype = "上联口";
+            }
+        }
+        var hHtml = template("vDevice-template", {list: oData.portList});
         $("#vDevice-placeholder").html(hHtml);
-        setVndMangement(oData.vndName);
+        var index = vnd_name.lastIndexOf("_");
+        var title = vnd_name.substring(index+1,vnd_name.length)
+        setVndMangement(title);
 //        $("#vDevice a[data-click='delete']").bind("click", bindPONdelete);
 //        $("#DeletePon").bind("click", deletePON);
-        $("#subscribe").content(oData.description);
-        $("#status").content(oData.status);
-        $("#deploy_mpu").content(oData.deploy_mpu);        
+        $("#device_type").content(oData.device_type);
+        $("#device_version").content(oData.device_version);
+        $("#system_version").content(oData.system_version);        
     }
     function setVndMangement(vndName){
         document.getElementById('vndMangement').innerHTML="设备:"+vndName;

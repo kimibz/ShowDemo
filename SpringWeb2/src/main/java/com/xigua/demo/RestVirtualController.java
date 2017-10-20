@@ -69,7 +69,7 @@ public class RestVirtualController {
         List<String> userList = UserService.getAllUser(0);//获取role=0的用户
         List<String> portList = new ArrayList<String>();
         List<String> cpuList = service.getCpuList(oltId);
-        LOG.info(""+userList.size());
+        LOG.info("role=0的用户有"+userList.size());
         for(Port port : interfaceList){
             portList.add(port.getPortname());
         }

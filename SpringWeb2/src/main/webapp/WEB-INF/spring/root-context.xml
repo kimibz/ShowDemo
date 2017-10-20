@@ -71,7 +71,31 @@
         </list>
         </property>
     </bean>
-    
+    <!--要循环调度的对象-->  
+    <bean id="jobBean" class="com.xigua.TimeJob.TestTimer" /> 
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+        <property name="targetObject" ref="jobBean" />  
+        <property name="targetMethod" value="execute" />  
+        <!--将并发设置为false-->  
+        <property name="concurrent" value="false" />  
+    </bean>  
+  
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+        <property name="jobDetail" ref="jobDetail" />  
+        <!--表达式，每 5s 执行一次--> 
+        <!-- 0 */15 * * *为每15分钟执行一次 --> 
+        <property name="cronExpression" value="0/5 * * * * ?" />  
+    </bean>  
+  
+    <!--  总管理类如果将lazy-init='false'那么容器启动就会执行调度程序   -->  
+    <bean id="startQuertz" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false" >  
+        <property name="triggers">  
+            <list>  
+                <!--作业调度器,list下可加入其他的调度器-->  
+                <ref bean="trigger" />  
+            </list>  
+        </property>  
+    </bean>
     
     
     <context:component-scan base-package="com.xigua.service" />

@@ -214,14 +214,14 @@
 <!--                                 <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" type="text" class="form-control" id="new_device_id" placeholder="Enter your name"> -->
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-md-2 control-label label-wide">部署的MPU: </label>
-                                        <label class="col-md-3 form-label label-wide text-info"><span id="deploy_mpu"></span><span>&nbsp;</span><span id="limit"></span></label>
-                                        <label class="col-md-2 control-label label-wide">状态: </label>
-                                        <label class="text-info"><span id="status"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">设备类型: </label>
+                                        <label class="col-md-3 form-label label-wide text-info"><span id="device_type"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">设备版本: </label>
+                                        <label class="text-info"><span id="status"></span><span>&nbsp;</span><span id="device_version"></span></label>
                                      </div>
                                      <div class="form-group">
-                                        <label class="col-md-2 control-label label-wide">描述: </label>
-                                        <label class="col-md-3 form-label label-wide text-info"><span id="subscribe"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-2 control-label label-wide">系统版本: </label>
+                                        <label class="col-md-8 form-label label-wide text-info"><span id="system_version"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div> 
                                      <div class="form-group">
                                         <div class="panel panel-default">
@@ -243,8 +243,8 @@
                     <!-- /.modal-dialog -->
                 </div>
                 <!-- /.modal-END -->
-                <!-- PON口资源删除确认框 -->
-                <div class="modal fade" id="ConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <!-- vlan修改 -->
+                <div class="modal fade" id="SwitchVlan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -255,9 +255,13 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group row">
+                                    <label class="col-md-4 control-label label-wide">原VLAN: </label>
+                                    <label class="col-md-3 form-label label-wide text-info"><span id="vlanId"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">VLAN:</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="VLAN" name="VLAN" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" placeholder="vlan">
+                                        <input type="text" id="VLAN" name="VLAN" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" placeholder="修改成的VLAN">
                                         <span class="text-danger small">0-4095</span>
                                     </div>
                                 </div>
@@ -445,10 +449,10 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.vnd_id}}">{{item.id}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.vnd_name}}">{{item.virtualName}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.vnd_status}}">{{item.status}}</td>
-                                                                     <td class="email-subject text-ellipsis" title="{{item.belongTo}}">{{item.user}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.user}}">{{item.user}}</td>
                                                                      <td class="email-select">
-                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="get" id="{{item.virtualName}}" data-target="#showDetail" data-click-data="{{item.virtualName}}">切片信息</a>
-                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="switch" id="{{item.virtualName}}Switch" data-target="#ConfirmSwitch" data-click-data="{{item.virtualName}}">配置业务</a>
+                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="get" id="{{item.oltId}}_{{item.virtualName}}" data-target="#showDetail" data-click-data="{{item.oltId}}_{{item.virtualName}}">切片信息</a>
+                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="switch" id="{{item.oltId}}_{{item.virtualName}}Switch" data-target="#ConfirmSwitch" data-click-data="{{item.oltId}}_{{item.virtualName}}">性能历史数据</a>
                                                                      </td>
                                                                  </tr>
                                                                  {{/each}}
@@ -462,11 +466,12 @@
                                                              <thead>
                                                                  <tr>
                                                                      <td style="width: 10%;">ID</td>
-                                                                     <td style="width: 15%;">槽位</td>
-                                                                     <td style="width: 15%;">线卡</td>
-                                                                     <td style="width: 15%;">端口号</td>
+                                                                     <td style="width: 10%;">槽位</td>
+                                                                     <td style="width: 10%;">板卡</td>
+                                                                     <td style="width: 10%;">端口号</td>
+                                                                     <td style="width: 10%;">类型</td>
                                                                      <td style="width: 15%;">速率</td>
-                                                                     <td style="width: 15%;">操作</td>
+                                                                     <td style="width: 25%;">操作</td>
                                                                  </tr>
                                                              </thead>
                                                              <tbody>
@@ -475,10 +480,12 @@
                                                                      <td class="email-subject text-ellipsis" title="{{index}}">{{index+1}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.shelf}}">{{item.shelf}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.slot}}">{{item.slot}}</td>
-                                                                     <td class="email-subject text-ellipsis" title="{{item.portNum}}">{{item.portNum}}</td>
-                                                                     <td class="email-subject text-ellipsis" title="{{10000}}">{{10000}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.portno}}">{{item.portno}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.porttype}}">{{item.porttype}}</td>
+                                                                     <td class="email-subject text-ellipsis" title="{{item.portspeed}}">{{item.portspeed}}</td>
                                                                      <td class="email-select">
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#ConfirmDelete" data-click="delete" id="{{item.node_id}}"data-click-data="{{item.interfaceName}}">修改VLAN</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{item.portname}}"data-click-data="{{item.portname}}">修改VLAN</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{item.portname}}"data-click-data="{{item.portname}}">查看性能</a> 
                                                                      </td>
                                                                  </tr>
                                                                  {{/each}}
