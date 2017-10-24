@@ -140,8 +140,14 @@
         userList = oData.user;
         cpuList = oData.cpu;
         for (var x in portList){
-            $('#assign_interface').append("<option value='"+portList[x]+"'>"+portList[x]+"</option>");
-            $('#addResource').append("<option value='"+portList[x]+"'>"+portList[x]+"</option>");
+            if(portList[x].substring(0,4) == "xgei"){
+                var result = "上联口:" + portList[x];
+            }
+            else{
+                var result = "PON口:" + portList[x];
+            }
+            $('#assign_interface').append("<option value='"+portList[x]+"'>"+result+"</option>");
+            $('#addResource').append("<option value='"+portList[x]+"'>"+result+"</option>");
         }
         for (var y in userList){
             $('#belongTo').append("<option value='"+userList[y]+"'>"+userList[y]+"</option>");
