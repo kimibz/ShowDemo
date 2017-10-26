@@ -130,6 +130,9 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
                     port.setSpeed("0");
                     port.setType("PON口");
                 }
+                if(interfaceName.substring(0,5).equals("vport")) {
+                    port.setType("vPort");
+                }
                 String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
                 port.setPortNum(portNo);
                 port.setShelf(shelf);
@@ -143,8 +146,16 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
                 public int compare(PortInfo arg0, PortInfo arg1) {
                     int hits0 = Integer.parseInt(arg0.getSlot());  
                     int hits1 = Integer.parseInt(arg1.getSlot());
-                    int portNo0 = Integer.parseInt(arg0.getPortNum());
-                    int portNo1 = Integer.parseInt(arg1.getPortNum());
+                    String poNum1 = arg0.getPortNum();
+                    String poNum2 = arg1.getPortNum();
+                    if(poNum1.contains(":")) {
+                        poNum1 = poNum1.substring(0,1);
+                    }
+                    if(poNum2.contains(":")) {
+                        poNum2 = poNum2.substring(0,1);
+                    }
+                    int portNo0 = Integer.parseInt(poNum1);
+                    int portNo1 = Integer.parseInt(poNum2);
                     if (hits1 > hits0) {    
                         return -1;  
                     } else if ((hits1 == hits0) && (portNo1 > portNo0)) {  
@@ -187,6 +198,24 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         JSONArray portArray = Object.getJSONArray("port");
         System.out.println(portArray.toJSONString());
         List<Port> port = JSON.parseArray(portArray.toJSONString(), Port.class);
+        //根据shelf&&portNumber正序排列portList
+        Collections.sort(port,new Comparator<Port>(){
+            public int compare(Port arg0, Port arg1) {
+                int hits0 = arg0.getSlot();  
+                int hits1 = arg1.getSlot();
+                int portNo0 = arg0.getPortno();
+                int portNo1 = arg1.getPortno();
+                if (hits1 > hits0) {    
+                    return -1;  
+                } else if ((hits1 == hits0) && (portNo1 > portNo0)) {  
+                    return -1;
+                }  else if(hits1 == hits0) {
+                    return 0;
+                }  else {  
+                    return 1;  
+                } 
+            }
+        });
         return port;
     }
 

@@ -262,7 +262,7 @@
                                     <label class="col-md-3 form-control-label" for="text-input">VLAN:</label>
                                     <div class="col-md-9">
                                         <input type="text" id="VLAN" name="VLAN" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" placeholder="修改成的VLAN">
-                                        <span class="text-danger small">0-4095</span>
+                                        <span class="text-danger small">0-4094</span>
                                     </div>
                                 </div>
                             </div>
@@ -485,7 +485,7 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.portspeed}}">{{item.portspeed}}</td>
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{item.portname}}"data-click-data="{{item.portname}}">修改VLAN</a>   
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{item.portname}}"data-click-data="{{item.portname}}">查看性能</a> 
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{index+1}}"data-click-data="{{item.portname}}">查看性能</a> 
                                                                      </td>
                                                                  </tr>
                                                                  {{/each}}

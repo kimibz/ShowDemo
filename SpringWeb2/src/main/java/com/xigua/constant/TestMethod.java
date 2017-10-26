@@ -1,26 +1,28 @@
 package com.xigua.constant;
 
-import java.util.List;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.xigua.model.Port;
-import com.xigua.util.HttpRequestUtil;
-
 public class TestMethod {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        String url = "http://localhost:8181/restconf/operational/"
-                + "network-topology:network-topology/topology/"
-                + "topology-netconf/node/vDevice_zte_vnd001/yang-ext:mount/"
-                + "zxr10-pm-sys:state/sys/ports";
-        String result = HttpRequestUtil.Get(url);
-        JSONObject obj =  JSON.parseObject(result);
-        JSONArray arr = obj.getJSONObject("ports").getJSONArray("port");
-        List <Port> Port = JSON.parseObject(arr.toJSONString(),new TypeReference<List<Port>>(){}); 
-        System.out.println(Port.get(0).getShelf());
+        String interfaceName ="gpon_olt-1/17/8";
+        String shelf =interfaceName.substring(interfaceName.indexOf("-")+1, interfaceName.indexOf("/"));
+        String slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
+        String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
+        String hexShelf = Integer.toHexString(Integer.parseInt(shelf));
+        String hexSlot = Integer.toHexString(Integer.parseInt(slot));
+        String hexPortNo = Integer.toHexString(Integer.parseInt(portNo));
+        if(hexShelf.length()<2) {
+            hexShelf = "0" + hexShelf ;
+        }
+        if(hexSlot.length()<2) {
+            hexSlot = "0" + hexSlot ;
+        }
+        if(hexPortNo.length()<2) {
+            hexPortNo = "0" + hexPortNo ;
+        }
+        String hexResult = "11" + hexShelf + hexSlot + hexPortNo;
+        int ifIndex = Integer.parseInt(hexResult,16);
+        System.out.println(hexResult);
+        System.out.println(ifIndex);
     }
 } 

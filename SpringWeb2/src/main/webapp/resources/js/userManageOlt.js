@@ -111,8 +111,13 @@
         var index = vnd_name.lastIndexOf("_");
         var title = vnd_name.substring(index+1,vnd_name.length)
         setVndMangement(title);
-//        $("#vDevice a[data-click='delete']").bind("click", bindPONdelete);
-//        $("#DeletePon").bind("click", deletePON);
+        for(x in portList){
+            //禁用性能监控按钮
+            if(portList[x].porttype == "PON口"){
+                var index = parseInt(x)+1 ;
+                $("#"+index).attr("class","btn btn-outline-primary btn-sm disabled");
+            }
+        }
         $("#device_type").content(oData.device_type);
         $("#device_version").content(oData.device_version);
         $("#system_version").content(oData.system_version);        
