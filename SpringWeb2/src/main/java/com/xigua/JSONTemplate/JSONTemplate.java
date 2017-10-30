@@ -43,8 +43,8 @@ public class JSONTemplate {
 	/*
 	 * 修改上联口VLAN
 	 */
-	public static String editVlan = "{\"zxr10-vlan-dev-c600:if-vlan\":"
-	        + "{\"zxr10-vlan-dev-c600:if-vlan\":[{\"zxr10-vlan-dev-c600:mode\":\"\",\""
-	        + "zxr10-vlan-dev-c600:if-sub-index\":\"\",\"zxr10-vlan-dev-c600:vlan-info\":\"\","
-	        + "\"zxr10-vlan-dev-c600:if-index\":\"\"}]}}";
+	public static String editVlan = "{\"zxr10-vlan-dev-c600:if-vlan-info\":"
+	        + "[{\"zxr10-vlan-dev-c600:if-sub-index\":\"\",\"zxr10-vlan-dev-c600:"
+	        + "vlan-untag-info\":\"\",\"zxr10-vlan-dev-c600:if-index\":\"\",\""
+	        + "zxr10-vlan-dev-c600:vlan-tag-info\":\"\"}]}";
 }

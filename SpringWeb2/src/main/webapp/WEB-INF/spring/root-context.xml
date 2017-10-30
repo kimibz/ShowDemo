@@ -84,7 +84,7 @@
         <property name="jobDetail" ref="jobDetail" />  
         <!--表达式，每 5s 执行一次--> 
         <!-- 0 */15 * * *为每15分钟执行一次 --> 
-        <property name="cronExpression" value="0/5 * * * * ?" />  
+        <property name="cronExpression" value="0 */15 * * * ?" />  
     </bean>  
   
     <!--  总管理类如果将lazy-init='false'那么容器启动就会执行调度程序   -->  

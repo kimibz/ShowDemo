@@ -218,6 +218,7 @@
                                         <label class="col-md-3 form-label label-wide text-info"><span id="device_type"></span><span>&nbsp;</span><span id="limit"></span></label>
                                         <label class="col-md-2 control-label label-wide">设备版本: </label>
                                         <label class="text-info"><span id="status"></span><span>&nbsp;</span><span id="device_version"></span></label>
+                                        <input id="source" type="text" value="123" style="display:none">
                                      </div>
                                      <div class="form-group">
                                         <label class="col-md-2 control-label label-wide">系统版本: </label>
@@ -245,7 +246,7 @@
                 <!-- /.modal-END -->
                 <!-- vlan修改 -->
                 <div class="modal fade" id="SwitchVlan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-warning" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">修改VLAN？</h4>
@@ -254,21 +255,26 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                        
                                 <div class="form-group row">
-                                    <label class="col-md-4 control-label label-wide">原VLAN: </label>
+                                    <label class="col-md-3 control-label label-wide">原VLAN: </label>
                                     <label class="col-md-3 form-label label-wide text-info"><span id="vlanId"></span><span>&nbsp;</span><span id="limit"></span></label>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">VLAN:</label>
+                                    <label class="col-md-3 control-label label-wide">模式: </label>
+                                    <label class="col-md-2 form-label label-wide text-info"><span id="vlanMode"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">添加VLAN:</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="VLAN" name="VLAN" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" placeholder="修改成的VLAN">
+                                        <input type="text" id="VLAN" name="VLAN" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" placeholder="添加的VLAN">
                                         <span class="text-danger small">0-4094</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                <button type="button" id="DeletePon" data-click-data="" data-dismiss="modal" class="btn btn-primary">确认删除</button>
+                                <button type="button" id="editVlanConfirm" data-click-data="" data-dismiss="modal" class="btn btn-primary">确认</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -277,6 +283,46 @@
                 </div>
                 <!-- /.modal -->
                 <!-- 确认框结束 -->
+                <!-- 获取性能统计 -->
+                <div class="modal fade" id="Portstatis" tabindex="-2" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-primary" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">性能统计</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label class="col-md-3 control-label label-wide">八位组发送速率: </label>
+                                    <label class="col-md-3 form-label label-wide text-info"><span id="octetTx"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                    <label class="col-md-3 control-label label-wide">八位组接受速率: </label>
+                                    <label class="col-md-2 form-label label-wide text-info"><span id="octetRx"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 control-label label-wide">八位组最大发送速率: </label>
+                                    <label class="col-md-3 form-label label-wide text-info"><span id="octetTxPeak"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                    <label class="col-md-3 control-label label-wide">八位组最大接受速率: </label>
+                                    <label class="col-md-2 form-label label-wide text-info"><span id="octetRxPeak"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 control-label label-wide">包发送速率: </label>
+                                    <label class="col-md-3 form-label label-wide text-info"><span id="pktTxRate"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                    <label class="col-md-3 control-label label-wide">包接受速率: </label>
+                                    <label class="col-md-2 form-label label-wide text-info"><span id="pktRxRate"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" id="editVlanConfirm" data-click-data="" data-dismiss="modal" class="btn btn-primary">确认</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
             <!-- /.conainer-fluid -->
         </main>
 
@@ -484,8 +530,8 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.porttype}}">{{item.porttype}}</td>
                                                                      <td class="email-subject text-ellipsis" title="{{item.portspeed}}">{{item.portspeed}}</td>
                                                                      <td class="email-select">
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{item.portname}}"data-click-data="{{item.portname}}">修改VLAN</a>   
-                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="delete" id="{{index+1}}"data-click-data="{{item.portname}}">查看性能</a> 
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#SwitchVlan" data-click="edit" id="{{item.portname}}"data-click-data="{{item.portname}}">修改VLAN</a>   
+                                                                         <a href="javascript:;" button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#Portstatis" data-click="get" id="{{index+1}}"data-click-data="{{item.portname}}">查看性能</a> 
                                                                      </td>
                                                                  </tr>
                                                                  {{/each}}

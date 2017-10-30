@@ -28,6 +28,20 @@
         $("#device-placeholder").html(hHtml);
         $("#device a[data-click='get']").bind("click", getVirtualInfo);
     }
+    //给vlan赋值
+    function setVlan(oData){
+        $("#vlanId").content(oData.vlan_info);
+        $("#vlanMode").content(oData.mode);
+    }
+    //给PortStats赋值
+    function setPortStats(oData){
+        $("#octetTxPeak").content(oData.octetTxPeak);
+        $("#octetRxPeak").content(oData.octetRxPeak);
+        $("#pktRxRate").content(oData.pktRxRate);
+        $("#pktTxRate").content(oData.pktTxRate);
+        $("#octetRx").content(oData.octetRx);
+        $("#octetTx").content(oData.octetTx);
+    }
     //获取该用户下切片的ID,NAME和STATUS列表
     function getVirtualList(){
         var oAjaxOption = {
@@ -93,6 +107,30 @@
         $.blockUI(util.getBlockOption());
         $.ajax(oAjaxOption);
     }
+    //修改VLAN确认按下功能
+    $("#editVlanConfirm").click(function() {
+        var vndName = $("#source").val();
+        var interfaceName = $(this).attr("data-click-data");
+        var vlan = $("#VLAN").val();
+        var oAjaxOption = {
+                type: "put",
+                url: sContextPath + "/rest/"+vndName+"/"+ interfaceName +".json",
+                contentType: "application/json",
+                data:vlan,
+                dataType: "text",
+                success: function(oData, oStatus) {
+                    setVlanConfirm();
+                },
+                error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
+                },
+                complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
+                }
+        };
+        $.blockUI(util.getBlockOption());
+        $.ajax(oAjaxOption);
+    });
     //给模态框的interface表格赋值
     function setInterfaceTable(oData,vnd_name){
         var x;
@@ -106,10 +144,13 @@
                 portList[x].porttype = "上联口";
             }
         }
+        //来源清空
+        $("#source").val();
         var hHtml = template("vDevice-template", {list: oData.portList});
         $("#vDevice-placeholder").html(hHtml);
         var index = vnd_name.lastIndexOf("_");
-        var title = vnd_name.substring(index+1,vnd_name.length)
+        var title = vnd_name.substring(index+1,vnd_name.length);
+        var source = "vDevice_"+vnd_name;
         setVndMangement(title);
         for(x in portList){
             //禁用性能监控按钮
@@ -120,10 +161,63 @@
         }
         $("#device_type").content(oData.device_type);
         $("#device_version").content(oData.device_version);
-        $("#system_version").content(oData.system_version);        
+        $("#system_version").content(oData.system_version);
+        $("#source").val(source);
+        $("#vDevice a[data-click='edit']").bind("click", setVlanConfirm);
+        $("#vDevice a[data-click='get']").bind("click", getPortStats);
+        //console.log($("#source").val());
     }
     function setVndMangement(vndName){
         document.getElementById('vndMangement').innerHTML="设备:"+vndName;
+    }
+    //获取修改vlan的模态框的值
+    function setVlanConfirm(){
+        //清空vlan输入框
+        $("#VLAN").val("");
+        var vndName = $("#source").val();
+        var interfaceName = $(this).attr("data-click-data");
+        var pon = interfaceName.replaceAll("/","_");
+        //确认按钮赋值
+        $("#editVlanConfirm").attr("data-click-data", pon);
+        var oAjaxOption = {
+                type: "get",
+                url: sContextPath + "/rest/vlan/"+vndName+"/"+pon+".json",
+                contentType: "application/json",
+                dataType: "text",
+                success: function(oData, oStatus) {
+                    setVlan(JSON.parse(oData));
+                },
+                error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
+                },
+                complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
+                }
+        };
+        $.blockUI(util.getBlockOption());
+        $.ajax(oAjaxOption);
+    }
+    function getPortStats(){
+        var vndName = $("#source").val();
+        var interfaceName = $(this).attr("data-click-data");
+        var pon = interfaceName.replaceAll("/","_");
+        var oAjaxOption = {
+                type: "get",
+                url: sContextPath + "/rest/PortStats/"+vndName+"/"+pon+".json",
+                contentType: "application/json",
+                dataType: "text",
+                success: function(oData, oStatus) {
+                    setPortStats(JSON.parse(oData));
+                },
+                error: function(oData, oStatus, eErrorThrow) {
+                    util.handleAjaxError(oData, oStatus, eErrorThrow);
+                },
+                complete: function (oXmlHttpRequest, oStatus) {
+                    $.unblockUI();
+                }
+        };
+        $.blockUI(util.getBlockOption());
+        $.ajax(oAjaxOption);
     }
     String.prototype.replaceAll = function(s1,s2){ 
         return this.replace(new RegExp(s1,"gm"),s2); 

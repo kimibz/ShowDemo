@@ -269,7 +269,7 @@
             <!-- end #message -->
             <!--Modal Begin --> 
                 <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-warning" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">修改设备名称</h4>
@@ -402,7 +402,7 @@
             <!--Modal End -->
             <!-- 确认框 -->
             <div class="modal fade" id="deleteWarning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-danger" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">是否删除</h4>

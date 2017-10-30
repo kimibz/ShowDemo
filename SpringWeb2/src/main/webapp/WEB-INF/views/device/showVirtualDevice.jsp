@@ -364,7 +364,7 @@
                 <!-- /.modal-END -->
                 <!-- 切片删除确认框 -->
                 <div class="modal fade" id="ConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-danger" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">确认删除该切片？</h4>
@@ -385,7 +385,7 @@
                 <!-- 确认框结束 -->
                 <!-- PON口资源删除确认框 -->
                 <div class="modal fade" id="ConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-danger" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">确认删除该PON口？</h4>
@@ -407,7 +407,7 @@
                 <!-- 确认框结束 -->
                 <!-- PON口资源删除确认框 -->
                 <div class="modal fade" id="ConfirmSwitch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-danger" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="SwitchModalTitle"></h4>
