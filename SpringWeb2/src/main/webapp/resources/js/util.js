@@ -188,6 +188,19 @@ if ("undefined" === typeof jQuery) {
     function getView(url) {
         location.href = url;
     }
+    //timestamp转String time=1439018115000---> 2015-8-9 8:1:36
+    function timeStamp2String (time){
+        var datetime = new Date();
+         datetime.setTime(time);
+         var year = datetime.getFullYear();
+         var month = datetime.getMonth() + 1;
+         var date = datetime.getDate();
+         var hour = datetime.getHours();
+         var minute = datetime.getMinutes();
+         var second = datetime.getSeconds();
+         //var mseconds = datetime.getMilliseconds();
+         return year + "-" + month + "-" + date+" "+hour+":"+minute+":"+second;
+};
  // 函数：序列化对象转JSON（不支持创建子类对象）
     function serializeArray2obj(serializedParams) {
 
@@ -263,7 +276,7 @@ if ("undefined" === typeof jQuery) {
     namespace.handleAjaxError = handleAjaxError;
     namespace.showWarningDialog = showWarningDialog;
     namespace.notifyMessage = notifyMessage;
-    
+    namespace.timeStamp2String = timeStamp2String;
 })(util);
 
 

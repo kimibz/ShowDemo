@@ -1,5 +1,11 @@
 package com.xigua.serviceImp;
 
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +23,7 @@ import com.xigua.model.rateStats;
 import com.xigua.model.vlanEdit;
 import com.xigua.service.vlanService;
 import com.xigua.util.HttpRequestUtil;
+import com.xigua.util.JsonDateValueProcessor;
 import com.xigua.util.Util;
 @Service
 public class vlanServiceImpl implements vlanService{
@@ -141,6 +148,14 @@ public class vlanServiceImpl implements vlanService{
             model.setOctetTxPeak(rate.getString("if-curr-tx-octet-peak-rate"));
             dao.insertPortHistory(model);
         }
+    }
+
+    @Override
+    public List<PortHistoryModel> getHistoryList(String oltId,String vndName) {
+        // TODO Auto-generated method stub
+        List<PortHistoryModel> list = new ArrayList<PortHistoryModel>();
+        list = dao.getPortHistory(oltId, vndName);
+        return list;
     }
 
 }

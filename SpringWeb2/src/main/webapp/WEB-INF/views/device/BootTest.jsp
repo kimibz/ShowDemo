@@ -376,22 +376,22 @@
     </footer>
 
     <!-- Bootstrap and necessary plugins -->
-    <script type="text/javascript" src="<c:url value="resources/js/jquery.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-growl/bootstrap-growl.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/tether_js/js/tether.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
-    <script type="text/javascript" src="<c:url value="resources/plugin/pace-0.5.6/pace.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/tether_js/js/tether.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/bootstrap-3.2.0/js/bootstrap.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/plugin/pace-0.5.6/pace.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/plugin/blockui/jquery.blockUI.js" />"></script>
 
     <!-- Plugins and scripts required by all views -->
-    <script type="text/javascript" src="<c:url value="resources/plugin/chart.js" />"></script>      
+    <script type="text/javascript" src="<c:url value="/resources/plugin/chart.js" />"></script>      
     <!-- GenesisUI main scripts -->
-    <script type="text/javascript" src="<c:url value="resources/js/app.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/app.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/util.js" />"></script>
     <!-- Plugins and scripts required by this views -->
 
     <!-- Custom scripts required by this view -->
-    <script type="text/javascript" src="<c:url value="resources/js/views/widgets.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/views/widgets.js" />"></script>
 
 </body>
 

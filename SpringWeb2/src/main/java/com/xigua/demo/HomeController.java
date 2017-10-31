@@ -85,4 +85,8 @@ public class HomeController {
     public String showDevice() {
         return "device/UserManageOlt";
     }
+	@RequestMapping(value = "/history/portStats/{oltId}/{vndName}", method = RequestMethod.GET)
+    public String showPortHistory() {
+        return "device/PortHistory";
+    }
 }

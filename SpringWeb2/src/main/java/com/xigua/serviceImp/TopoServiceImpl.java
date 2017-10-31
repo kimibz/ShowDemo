@@ -194,7 +194,7 @@ public class TopoServiceImpl implements TopoService{
             for(PortInfo port : ponList){
                 if(port.getSlot().equals(slot.getId())){
                     pon pon = new pon();
-                    pon.setId(port.getInterfaceName());
+                    pon.setId("端口"+port.getPortNum());
                     ponSave.add(pon);
                 }
             }

@@ -97,11 +97,15 @@
     //建立拓扑图
     function setOLTtopo(olt1){
         var oltId = id-1;
-        nodes.push({id: oltId, label: olt1.name});
+        if(username == "admin"){
+            nodes.push({id: oltId, label: "olt:"+olt1.name});
+        }else{
+            nodes.push({id: oltId, label: username});
+        }
         nodes[oltId]["level"] = 0;
         if(olt1.volt != null){
             for (var i=0; i<olt1.volt.length;i++) {
-                nodes.push({id: id, label: olt1.volt[i].id});
+                nodes.push({id: id, label: "切片:"+olt1.volt[i].id});//, color: 'lime'
                 edges.push({from: 0, to:id});
                 nodes[id]["level"] = 1;
                 var voltId = id;
@@ -161,21 +165,38 @@
             edges: edges
         };
 
+//        var options = {
+//            edges: {
+//                smooth: {
+//                    type: 'cubicBezier',
+//                    forceDirection: (directionInput.value == "UD" || directionInput.value == "DU") ? 'vertical' : 'horizontal',
+//                    roundness: 0.4
+//                }
+//            },
+//            layout: {
+//                hierarchical: {
+//                    direction: directionInput.value
+//                }
+//            },
+//            physics:false
+//        };
         var options = {
-            edges: {
-                smooth: {
-                    type: 'cubicBezier',
-                    forceDirection: (directionInput.value == "UD" || directionInput.value == "DU") ? 'vertical' : 'horizontal',
-                    roundness: 0.4
-                }
-            },
-            layout: {
-                hierarchical: {
-                    direction: directionInput.value
-                }
-            },
-            physics:false
-        };
+                layout: {
+                    hierarchical: {
+                        direction: directionInput
+                    }
+                },
+                nodes: {
+                    shape: 'box',
+                    margin: 10,
+                    widthConstraint: {
+                      maximum: 200
+                    }
+                  },
+                physics: {
+                    enabled:false
+                  },
+            };
         network = new vis.Network(container, data, options);
 
         // add event listeners

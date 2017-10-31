@@ -40,7 +40,7 @@
     <spring:url value="/resources/css/simple-line-icons.css" var="simple_line_icons"/>
     <link href="${simple_line_icons}" rel="stylesheet" type="text/css" media="screen, projection"/>
     
-    <spring:url value="/resources/plugin/dist/vis-network.min.css" var="vis"/>
+    <spring:url value="/resources/plugin/dist/vis.css" var="vis"/>
     <link href="${vis}" rel="stylesheet" type="text/css" media="screen, projection"/>
 
 

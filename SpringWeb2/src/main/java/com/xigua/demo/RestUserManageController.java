@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xigua.model.ManageVirtualUsr;
+import com.xigua.model.PortHistoryModel;
 import com.xigua.model.rateStats;
 import com.xigua.model.usrOLTManageModel;
 import com.xigua.model.vlanEdit;
@@ -81,5 +82,14 @@ public class RestUserManageController {
     @RequestMapping(value = "/rest/PortStatsHistory/{vndName}.json", method = RequestMethod.GET)
     public void saveStats(@PathVariable String vndName){
         vlanService.saveStats("vDevice_zte_vnd001");
+    }
+    /*
+     * 返回端口历史性能数据
+     */
+    @RequestMapping(value = "/rest/history/{oltId}/{vndName}.json", method = RequestMethod.GET)
+    @ResponseBody
+    public List<PortHistoryModel> getHistoryStats(@PathVariable String oltId,@PathVariable String vndName){
+        List<PortHistoryModel> list =vlanService.getHistoryList(oltId, vndName);
+        return list;
     }
 }

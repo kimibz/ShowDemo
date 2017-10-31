@@ -1,5 +1,8 @@
 package com.xigua.service;
 
+import java.util.List;
+
+import com.xigua.model.PortHistoryModel;
 import com.xigua.model.rateStats;
 import com.xigua.model.vlanEdit;
 
@@ -12,4 +15,6 @@ public interface vlanService {
     rateStats getStats(String vndName,String interfaceName);
     //存入性能统计数据
     void saveStats(String vndName);
+    //获取历史性能统计数据
+    List<PortHistoryModel> getHistoryList(String oltId,String vndName);
 }

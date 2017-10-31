@@ -27,11 +27,21 @@
         var hHtml = template("device-template", {list: oData});
         $("#device-placeholder").html(hHtml);
         $("#device a[data-click='get']").bind("click", getVirtualInfo);
+        $("#device a[data-click='go']").bind("click", goToShowHistory);
     }
     //给vlan赋值
     function setVlan(oData){
         $("#vlanId").content(oData.vlan_info);
         $("#vlanMode").content(oData.mode);
+    }
+    //端口历史数据跳转
+    function goToShowHistory(){
+        var nodeId = $(this).attr("data-click-data");
+        var index = nodeId.lastIndexOf("_");
+        var oltId = nodeId.substring(0,index);
+        var vndName = nodeId.substring(index+1,nodeId.length);
+        var url = sContextPath +"/history/portStats/"+oltId+"/"+vndName;
+        window.location.href = url;
     }
     //给PortStats赋值
     function setPortStats(oData){
