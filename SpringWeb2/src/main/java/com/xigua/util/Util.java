@@ -113,6 +113,9 @@ public class Util {
 		 * 用interface来获取ifIndex的值
 		 */
 		public int getIndex(String interfaceName) {
+		    if(interfaceName.contains("gpon/olt")){
+		        interfaceName = interfaceName.replace("gpon/","gpon");
+	        }
 		    String shelf =interfaceName.substring(interfaceName.indexOf("-")+1, interfaceName.indexOf("/"));
 	        String slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
 	        String portNo = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xigua.dao.PortHistoryDao" >
+    <resultMap id="BaseResultMap" type="com.xigua.model.PortHistoryModel" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="oltId" property="oltId" jdbcType="VARCHAR" />
+        <result column="vndName" property="vndName" jdbcType="VARCHAR" />
+        <result column="interfaceName" property="interfaceName" jdbcType="VARCHAR" />
+        <result column="octetRxPeak" property="octetRxPeak" jdbcType="VARCHAR" />
+        <result column="octetTxPeak" property="octetTxPeak" jdbcType="VARCHAR" />
+        <result column="pktRxRate" property="pktRxRate" jdbcType="VARCHAR" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+        <result column="pktTxRate" property="pktTxRate" jdbcType="VARCHAR" />
+        <result column="octetRx" property="octetRx" jdbcType="VARCHAR" />
+        <result column="octetTx" property="octetTx" jdbcType="VARCHAR" />
+    </resultMap>
+    <insert id="insertPortHistory" parameterType="com.xigua.model.PortHistoryModel" >
+    insert into porthistory (id,oltId,vndName,interfaceName,octetRxPeak,octetTxPeak,
+    pktRxRate,pktTxRate,octetRx,octetTx,time)
+    values (#{id,jdbcType=INTEGER}, #{oltId,jdbcType=VARCHAR}, #{vndName,jdbcType=INTEGER}, 
+      #{interfaceName,jdbcType=DATE}, #{octetRxPeak,jdbcType=VARCHAR},#{octetTxPeak,jdbcType=TIMESTAMP},
+      #{pktRxRate,jdbcType=INTEGER},#{pktTxRate,jdbcType=VARCHAR},#{octetRx,jdbcType=VARCHAR}
+      ,#{octetTx,jdbcType=INTEGER},#{time,jdbcType=TIMESTAMP})
+    </insert>
+    <select id="getPortHistory" parameterType="String" resultMap="BaseResultMap" >
+        SELECT *
+        from portHistory
+        where oltId = #{oltId,jdbcType=VARCHAR}
+        and vndName = #{vndName,jdbcType=VARCHAR} 
+    </select>
+</mapper>

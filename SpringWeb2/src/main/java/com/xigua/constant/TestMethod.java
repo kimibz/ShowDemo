@@ -1,12 +1,13 @@
 package com.xigua.constant;
 
-import com.xigua.serviceImp.vlanServiceImpl;
-
 public class TestMethod {
     public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
-        String vndName = "vDevice_zte_vnd001";
-        vlanServiceImpl impl = new vlanServiceImpl();
-        impl.saveStats(vndName);
+        String vndName = "gpon/olt/1/1/2";
+        if(vndName.contains("gpon/olt")){
+            vndName = vndName.replaceAll("gpon/","");
+            System.out.println("123");
+        }
+        System.out.println(vndName);
     }
 } 

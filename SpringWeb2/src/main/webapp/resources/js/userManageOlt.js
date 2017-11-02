@@ -26,6 +26,12 @@
     function setTable(oData){
         var hHtml = template("device-template", {list: oData});
         $("#device-placeholder").html(hHtml);
+        for(var x in oData){
+            if(oData[x].status == "离线"){
+                var index = oData[x].oltId + "_" + oData[x].virtualName;
+                $("#"+index).attr("class","btn btn-outline-primary btn-sm disabled");
+            }
+        }
         $("#device a[data-click='get']").bind("click", getVirtualInfo);
         $("#device a[data-click='go']").bind("click", goToShowHistory);
     }
