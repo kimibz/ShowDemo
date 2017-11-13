@@ -89,4 +89,8 @@ public class HomeController {
     public String showPortHistory() {
         return "device/PortHistory";
     }
+    @RequestMapping(value = "/Management/onu/{oltId}/{vndName}", method = RequestMethod.GET)
+    public String showOnuManagement() {
+        return "device/OnuManagement";
+    }
 }

@@ -18,6 +18,7 @@ import com.xigua.JSONTemplate.JSONTemplate;
 import com.xigua.dao.ManageVirtualUsrDao;
 import com.xigua.model.Port;
 import com.xigua.model.PortInfo;
+import com.xigua.model.SpawnInfo;
 import com.xigua.model.SpawnNewVirDevice;
 import com.xigua.model.virtualDevice;
 import com.xigua.model.virtualDeviceInfo;
@@ -184,6 +185,12 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         HttpRequestUtil.Delete(url);
         //删除数据库数据
         manageDao.deleteVirtualByUsr(manageDao.getId(oltId, vndName));
+        //删除控制器数据
+        String cUrl = Ipaddress + "config/network-topology:network-topology/"
+                + "topology/topology-netconf/node/";
+        String nodeId =  "vDevice_" + oltId +"_"+vndName;
+        LOG.info(nodeId);
+        HttpRequestUtil.Delete(cUrl+nodeId);
     }
 
     @Override
@@ -255,11 +262,12 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         String user = info.getBelongTo();
         String vndName = info.getVnd_name();
         manageDao.SetVirtualToUser(oltId, vndName, user);
-        //向控制器发送建立连接请求
         String url = Ipaddress+"/restconf/config/"
                 + "network-topology:network-topology/topology/topology-netconf/node/"
                 + oltId +"/yang-ext:mount/zxr10-pm-lr:configuration/virtual-network-device";
         HttpRequestUtil.Post(url, OBJ.toJSONString());
+       //向控制器发送建立连接请求
+        spawnNewConnect(oltId,info.getVnd_name());
     }
 
     @Override
@@ -344,7 +352,13 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         JSONArray arr =object.getJSONArray("node");
         JSONObject device_obj = JSON.parseObject(arr.get(0)+"");
         //添加新数据
-        device_obj.put("netconf-node-topology:host", "116.228.53.163");
+        boolean ifGetIp = false;
+        ifGetIp = ifGetIp("116.228.53.163");
+        if(!ifGetIp) {
+            device_obj.put("netconf-node-topology:host", "116.228.53.163");
+        }else {
+            device_obj.put("netconf-node-topology:host", "116.228.53.164");
+        }
         device_obj.put("node-id", device_name);
         device_obj.put("password", "zte");
         device_obj.put("netconf-node-topology:username", "zte");
@@ -358,7 +372,26 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         String entity = object.toJSONString();
         HttpRequestUtil.Put(e_url, entity);
     }
-
+    
+    //判断是否有IP
+    Boolean ifGetIp(String ip) {
+        String url = "http://localhost:8181/restconf/operational/"
+                + "network-topology:network-topology/topology/topology-netconf/";
+        String result = HttpRequestUtil.Get(url);
+        System.out.println(result);
+        JSONArray arr = JSON.parseObject(result).getJSONArray("topology").
+                getJSONObject(0).getJSONArray("node");
+        boolean ifGetIp = false ;
+        for(int i=0; i<arr.size() ; i++) {
+            JSONObject obj = arr.getJSONObject(i);
+            String ipGet = obj.get("netconf-node-topology:host").toString();
+            if(ipGet.equals(ip)) {
+                ifGetIp = true;
+            }
+        }
+        return ifGetIp;
+        
+    }
 
 }
 

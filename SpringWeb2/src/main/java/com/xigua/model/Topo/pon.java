@@ -12,17 +12,17 @@ public class pon implements Serializable{
 
     
     private String id;
-    private List<String> onu;
+    private List<Onu> onu;
     public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
-    public List<String> getOnu() {
+    public List<Onu> getOnu() {
         return onu;
     }
-    public void setOnu(List<String> onu) {
+    public void setOnu(List<Onu> onu) {
         this.onu = onu;
     }
     

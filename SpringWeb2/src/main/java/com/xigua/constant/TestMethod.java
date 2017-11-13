@@ -3,11 +3,9 @@ package com.xigua.constant;
 public class TestMethod {
     public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
-        String vndName = "gpon/olt/1/1/2";
-        if(vndName.contains("gpon/olt")){
-            vndName = vndName.replaceAll("gpon/","");
-            System.out.println("123");
-        }
-        System.out.println(vndName);
+       String interfaceName = "285278987_1";
+       String []a = interfaceName.split("_");
+       String ifIndex = a[0];
+       String OnuIndex = a[1];
     }
 } 

@@ -126,7 +126,12 @@
                                 id++;
                                 if(olt1.volt[i].slot[j].pon[k].onu != null){
                                     for(var m=0;m<olt1.volt[i].slot[j].pon[k].onu.length;m++){
-                                        nodes.push({id: id, label: olt1.volt[i].slot[j].pon[k].onu[m].id});
+                                        var status = olt1.volt[i].slot[j].pon[k].onu[m].zxAnGponSrvOnuPhaseStatus;
+                                        if(status=="offline"){
+                                            nodes.push({id: id, label: "onu:"+olt1.volt[i].slot[j].pon[k].onu[m].zxAnPonOnuIndex,color: 'rgb(96,96,96)'});
+                                        }else{
+                                            nodes.push({id: id, label: "onu:"+olt1.volt[i].slot[j].pon[k].onu[m].zxAnPonOnuIndex,color: 'lime'});
+                                        }
                                         nodes[id]["level"] = 4;
                                         edges.push({from: ponId, to:id});
                                         id++;

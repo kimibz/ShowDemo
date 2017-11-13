@@ -56,7 +56,7 @@
 
                         <div class="input-group mb-1">
                             <span class="input-group-addon">@</span>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" onkeyup="this.value=this.value.replace(^(([0-9a-zA-Z]+)|([0-9a-zA-Z]+[_.0-9a-zA-Z-]*[0-9a-zA-Z]+))@([a-zA-Z0-9-]+[.])+([a-zA-Z]{2}|net|NET|com|COM|gov|GOV|mil|MIL|org|ORG|edu|EDU|int|INT)$);">
                         </div>
 
                         <div class="input-group mb-1">

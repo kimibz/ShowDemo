@@ -1,9 +1,6 @@
 package com.xigua.serviceImp;
 
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,14 +13,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xigua.JSONTemplate.ControllerSettings;
 import com.xigua.JSONTemplate.JSONTemplate;
-import com.xigua.dao.ManageVirtualUsrDao;
 import com.xigua.dao.PortHistoryDao;
 import com.xigua.model.PortHistoryModel;
 import com.xigua.model.rateStats;
 import com.xigua.model.vlanEdit;
 import com.xigua.service.vlanService;
 import com.xigua.util.HttpRequestUtil;
-import com.xigua.util.JsonDateValueProcessor;
 import com.xigua.util.Util;
 @Service
 public class vlanServiceImpl implements vlanService{
@@ -156,6 +151,19 @@ public class vlanServiceImpl implements vlanService{
         List<PortHistoryModel> list = new ArrayList<PortHistoryModel>();
         list = dao.getPortHistory(oltId, vndName);
         return list;
+    }
+
+    @Override
+    public void deleteVlan(String vndName, String interfaceName, String vlan) {
+        // TODO Auto-generated method stub
+        String ifSubIndex = "0" ;
+        String ifIndex = ""+util.getIndex(interfaceName);
+        String url = Ipaddress+"/restconf/config/network-topology:network-topology/"
+                + "topology/topology-netconf/node/"
+                + vndName +"/yang-ext:mount/zxr10-vlan-dev-c600:configuration/switchvlan"
+                        + "/if-vlan/if-vlan-info/"+ifIndex+"/"+ifSubIndex;
+        LOG.info("开始删除"+vndName+"上联口端口");
+        HttpRequestUtil.Delete(url);
     }
 
 }

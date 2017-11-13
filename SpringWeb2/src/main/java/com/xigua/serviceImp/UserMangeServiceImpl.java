@@ -17,7 +17,6 @@ import com.xigua.JSONTemplate.ControllerSettings;
 import com.xigua.dao.ManageVirtualUsrDao;
 import com.xigua.model.ManageVirtualUsr;
 import com.xigua.model.Port;
-import com.xigua.model.PortInfo;
 import com.xigua.model.usrOLTManageModel;
 import com.xigua.service.UserMangeService;
 import com.xigua.util.HttpRequestUtil;

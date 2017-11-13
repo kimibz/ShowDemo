@@ -9,6 +9,8 @@ import com.xigua.model.vlanEdit;
 public interface vlanService {
     //修改上联口VLAN(添加)
     void editVlan(String vndName,String interfaceName,String vlan);
+    //修改上联口VLAN(清空)
+    void deleteVlan(String vndName,String interfaceName,String vlan);
     //获取VLAN INFO
     vlanEdit getVlan(String vndName,String interfaceName);
     //获取上联口性能统计数据

@@ -34,6 +34,7 @@
         }
         $("#device a[data-click='get']").bind("click", getVirtualInfo);
         $("#device a[data-click='go']").bind("click", goToShowHistory);
+        $("#device a[data-click='onu']").bind("click", goToOnuManagement);
     }
     //给vlan赋值
     function setVlan(oData){
@@ -47,6 +48,15 @@
         var oltId = nodeId.substring(0,index);
         var vndName = nodeId.substring(index+1,nodeId.length);
         var url = sContextPath +"/history/portStats/"+oltId+"/"+vndName;
+        window.location.href = url;
+    }
+    //ONU管理跳转
+    function goToOnuManagement(){
+        var nodeId = $(this).attr("data-click-data");
+        var index = nodeId.lastIndexOf("_");
+        var oltId = nodeId.substring(0,index);
+        var vndName = nodeId.substring(index+1,nodeId.length);
+        var url = sContextPath +"/Management/onu/"+oltId+"/"+vndName;
         window.location.href = url;
     }
     //给PortStats赋值
@@ -128,24 +138,57 @@
         var vndName = $("#source").val();
         var interfaceName = $(this).attr("data-click-data");
         var vlan = $("#VLAN").val();
-        var oAjaxOption = {
-                type: "put",
-                url: sContextPath + "/rest/"+vndName+"/"+ interfaceName +".json",
-                contentType: "application/json",
-                data:vlan,
-                dataType: "text",
-                success: function(oData, oStatus) {
-                    setVlanConfirm();
-                },
-                error: function(oData, oStatus, eErrorThrow) {
-                    util.handleAjaxError(oData, oStatus, eErrorThrow);
-                },
-                complete: function (oXmlHttpRequest, oStatus) {
-                    $.unblockUI();
-                }
-        };
-        $.blockUI(util.getBlockOption());
-        $.ajax(oAjaxOption);
+        var ifCleanVlan = $('#choose input[name="ifCleanVlan"]:checked').val();
+        //ifCleanVlan为1是清空vlan
+        if(ifCleanVlan != 1){
+            var oAjaxOption = {
+                    type: "put",
+                    url: sContextPath + "/rest/"+vndName+"/"+ interfaceName +".json",
+                    contentType: "application/json",
+                    data:vlan,
+                    dataType: "text",
+                    success: function(oData, oStatus) {
+                        setVlanConfirm();
+                    },
+                    error: function(oData, oStatus, eErrorThrow) {
+                        util.handleAjaxError(oData, oStatus, eErrorThrow);
+                    },
+                    complete: function (oXmlHttpRequest, oStatus) {
+                        $.unblockUI();
+                    }
+            };
+            $.blockUI(util.getBlockOption());
+            $.ajax(oAjaxOption);
+        }else{
+            var oAjaxOption = {
+                    type: "delete",
+                    url: sContextPath + "/rest/"+vndName+"/"+ interfaceName +".json",
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function(oData, oStatus) {
+                        setVlanConfirm();
+                    },
+                    error: function(oData, oStatus, eErrorThrow) {
+                        util.handleAjaxError(oData, oStatus, eErrorThrow);
+                    },
+                    complete: function (oXmlHttpRequest, oStatus) {
+                        $.unblockUI();
+                    }
+            };
+            $.blockUI(util.getBlockOption());
+            $.ajax(oAjaxOption);
+        }
+       
+    });
+    //清空VLAN
+    $("#ifCleanVlan").click(function() {
+        var ifCleanVlan = $('#choose input[name="ifCleanVlan"]:checked').val();
+        if(ifCleanVlan == 1){
+            $('#VLAN').attr("disabled",true); 
+        }
+        if(ifCleanVlan == null){
+            $('#VLAN').removeAttr("disabled"); 
+        }
     });
     //给模态框的interface表格赋值
     function setInterfaceTable(oData,vnd_name){

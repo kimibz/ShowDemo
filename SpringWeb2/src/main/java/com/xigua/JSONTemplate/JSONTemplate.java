@@ -47,4 +47,12 @@ public class JSONTemplate {
 	        + "[{\"zxr10-vlan-dev-c600:if-sub-index\":\"\",\"zxr10-vlan-dev-c600:"
 	        + "vlan-untag-info\":\"\",\"zxr10-vlan-dev-c600:if-index\":\"\",\""
 	        + "zxr10-vlan-dev-c600:vlan-tag-info\":\"\"}]}";
+	/*
+	 * 添加ONU
+	 */
+	public static String addOnu = "{\"zxr10-test:onulist\":"
+	        + "[{\"zxr10-test:zxAnGponOnuMgmtRegMode\":\"\",\""
+	        + "zxr10-test:zxAnPonOnuIndex\":\"\",\"zxr10-test:ifIndex\":\"\""
+	        + ",\"zxr10-test:zxAnGponOnuMgmtTypeName\":\"\","
+	        + "\"zxr10-test:zxAnGponOnuMgmtSn\":\"\"}]}";
 }

@@ -57,6 +57,14 @@ public class RestUserManageController {
         vlanService.editVlan(vndName, interfaceFormat,vlan);
     }
     /*
+     * 清空VLAN
+     */
+    @RequestMapping(value = "/rest/{vndName}/{interfaceName}.json", method = RequestMethod.DELETE)
+    public void deleteVlan(@PathVariable String vndName,@PathVariable String interfaceName,@RequestBody String vlan){
+        String interfaceFormat = interfaceName.replaceAll("_", "/");
+        vlanService.deleteVlan(vndName, interfaceFormat,vlan);
+    }
+    /*
      * 获取VLAN
      */
     @RequestMapping(value = "/rest/vlan/{vndName}/{interfaceName}.json", method = RequestMethod.GET)

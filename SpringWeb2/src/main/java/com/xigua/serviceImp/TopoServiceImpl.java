@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.xigua.JSONTemplate.ControllerSettings;
 import com.xigua.dao.ManageVirtualUsrDao;
 import com.xigua.model.ManageVirtualUsr;
 import com.xigua.model.Port;
 import com.xigua.model.PortInfo;
+import com.xigua.model.Topo.Onu;
 import com.xigua.model.Topo.TopoInfo;
 import com.xigua.model.Topo.VOLT;
 import com.xigua.model.Topo.pon;
@@ -25,6 +27,7 @@ import com.xigua.model.Topo.slot;
 import com.xigua.service.TopoService;
 import com.xigua.service.virtualDeviceService;
 import com.xigua.util.HttpRequestUtil;
+import com.xigua.util.Util;
 @Service
 public class TopoServiceImpl implements TopoService{
     @Autowired
@@ -143,6 +146,8 @@ public class TopoServiceImpl implements TopoService{
                         slotList.add(slotOBJ);
                 }
                 slotList = dividePort(ponList,slotList);
+                //ONU
+                slotList = giveOnu(vDeviceName, slotList);
                 //根据slotId正序排列slotList
                 Collections.sort(slotList,new Comparator<slot>(){
                     public int compare(slot arg0, slot arg1) {
@@ -194,13 +199,53 @@ public class TopoServiceImpl implements TopoService{
             for(PortInfo port : ponList){
                 if(port.getSlot().equals(slot.getId())){
                     pon pon = new pon();
-                    pon.setId("端口"+port.getPortNum());
+                    if(slot.getId().equals("槽17")){
+                        pon.setId("上联"+port.getPortNum());
+                    }else {
+                        pon.setId("端口"+port.getPortNum());
+                    }
+                    List<Onu> onuSave = new ArrayList<Onu>();
+                    pon.setOnu(onuSave);
                     ponSave.add(pon);
                 }
             }
             slot.setPon(ponSave);
         }
         return slotList;
+    }
+    //将onu分配岛相应的PON口下
+    static List<slot> giveOnu(String vDeviceName,List<slot> slotList){
+        String url = "http://localhost:8181/restconf/"
+                + "operational/network-topology:network-topology/"
+                + "topology/topology-netconf/node/" + vDeviceName
+                + "/yang-ext:mount/zxr10-test:state";
+        String result = HttpRequestUtil.Get(url);
+        System.out.println(result);
+        String JSON_ARRAY_STR = JSON.parseObject(result).
+                getJSONObject("state").getJSONArray("onuStatus").toJSONString();
+//        JSONArray arr = JSON.parseObject(result).getJSONObject("state")
+//                .getJSONArray("onuStatus");
+        ArrayList<Onu> onuList = JSON.parseObject(JSON_ARRAY_STR, new TypeReference<ArrayList<Onu>>() {});
+        for(Onu onu : onuList) {
+            int ifIndex = onu.getIfIndex();
+            String interfaceName = ""+Util.ifIndexToInterface(""+ifIndex);
+            String shelf = interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/")); ;
+            String pon = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
+            for(slot slot : slotList) {
+                if(shelf.equals(slot.getId().substring(1))) {
+                    List<pon> ponList = slot.getPon();
+                    for(pon ponObject : ponList) {
+                        if(pon.equals(ponObject.getId().substring(2))) {
+                            List<Onu> onuSave = ponObject.getOnu();
+                            onuSave.add(onu);
+                            ponObject.setOnu(onuSave);
+                        }
+                    }
+                }
+            }
+        }
+        return slotList;
+        
     }
 
 }
