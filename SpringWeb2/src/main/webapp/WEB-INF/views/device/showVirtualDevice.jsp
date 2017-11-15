@@ -12,7 +12,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,jQuery,CSS,HTML,RWD,Dashboard">
@@ -296,7 +295,7 @@
                 <!-- /.modal-END -->
             <!-- modal begin -->
             <div class="modal fade bs-example-modal-lg" id="showDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-info" role="document">
+                    <div class="modal-dialog modal-lg modal-info" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <label id="vndMangement"></label>
@@ -316,7 +315,7 @@
                                      </div>
                                      <div class="form-group">
                                         <label class="col-md-2 control-label label-wide">部署的MPU: </label>
-                                        <label class="col-md-8 form-label label-wide text-info"><span id="deploy_mpu"></span><span>&nbsp;</span><span id="limit"></span></label>
+                                        <label class="col-md-6 form-label label-wide text-info"><span id="deploy_mpu"></span><span>&nbsp;</span><span id="limit"></span></label>
                                      </div> 
                                      <div class="form-group">
                                         <div class="panel panel-default">

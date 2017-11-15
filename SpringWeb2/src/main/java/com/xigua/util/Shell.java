@@ -98,7 +98,8 @@ public class Shell {
 
     public static void main(final String [] args) {  
         Shell shell = new Shell("116.228.53.162", "zte", "zte");
-        shell.execute("show location");
+        shell.execute("ls");
+        //shell.execute("zxr10");
 
         ArrayList<String> stdout = shell.getStandardOutput();
         for (String str : stdout) {  

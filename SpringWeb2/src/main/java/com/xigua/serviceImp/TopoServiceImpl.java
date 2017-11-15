@@ -221,24 +221,26 @@ public class TopoServiceImpl implements TopoService{
                 + "/yang-ext:mount/zxr10-test:state";
         String result = HttpRequestUtil.Get(url);
         System.out.println(result);
-        String JSON_ARRAY_STR = JSON.parseObject(result).
-                getJSONObject("state").getJSONArray("onuStatus").toJSONString();
-//        JSONArray arr = JSON.parseObject(result).getJSONObject("state")
-//                .getJSONArray("onuStatus");
-        ArrayList<Onu> onuList = JSON.parseObject(JSON_ARRAY_STR, new TypeReference<ArrayList<Onu>>() {});
-        for(Onu onu : onuList) {
-            int ifIndex = onu.getIfIndex();
-            String interfaceName = ""+Util.ifIndexToInterface(""+ifIndex);
-            String shelf = interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/")); ;
-            String pon = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
-            for(slot slot : slotList) {
-                if(shelf.equals(slot.getId().substring(1))) {
-                    List<pon> ponList = slot.getPon();
-                    for(pon ponObject : ponList) {
-                        if(pon.equals(ponObject.getId().substring(2))) {
-                            List<Onu> onuSave = ponObject.getOnu();
-                            onuSave.add(onu);
-                            ponObject.setOnu(onuSave);
+        if(result != null) {
+            String JSON_ARRAY_STR = JSON.parseObject(result).
+                    getJSONObject("state").getJSONArray("onuStatus").toJSONString();
+//            JSONArray arr = JSON.parseObject(result).getJSONObject("state")
+//                    .getJSONArray("onuStatus");
+            ArrayList<Onu> onuList = JSON.parseObject(JSON_ARRAY_STR, new TypeReference<ArrayList<Onu>>() {});
+            for(Onu onu : onuList) {
+                int ifIndex = onu.getIfIndex();
+                String interfaceName = ""+Util.ifIndexToInterface(""+ifIndex);
+                String shelf = interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/")); ;
+                String pon = interfaceName.substring(interfaceName.lastIndexOf("/")+1, interfaceName.length());
+                for(slot slot : slotList) {
+                    if(shelf.equals(slot.getId().substring(1))) {
+                        List<pon> ponList = slot.getPon();
+                        for(pon ponObject : ponList) {
+                            if(pon.equals(ponObject.getId().substring(2))) {
+                                List<Onu> onuSave = ponObject.getOnu();
+                                onuSave.add(onu);
+                                ponObject.setOnu(onuSave);
+                            }
                         }
                     }
                 }

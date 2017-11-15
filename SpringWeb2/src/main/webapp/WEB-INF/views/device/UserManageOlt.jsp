@@ -368,8 +368,8 @@
                                                                      <td class="email-subject text-ellipsis" title="{{item.user}}">{{item.user}}</td>
                                                                      <td class="email-select">
                                                                          <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="get" id="{{item.oltId}}_{{item.virtualName}}" data-target="#showDetail" data-click-data="{{item.oltId}}_{{item.virtualName}}">切片信息</a>
-                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="go" id="{{item.oltId}}_{{item.virtualName}}" data-click-data="{{item.oltId}}_{{item.virtualName}}">性能历史数据</a>
-                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="onu" id="{{item.oltId}}_{{item.virtualName}}" data-click-data="{{item.oltId}}_{{item.virtualName}}">ONU管理</a>
+                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="go" id="{{item.oltId}}_{{item.virtualName}}H" data-click-data="{{item.oltId}}_{{item.virtualName}}">性能历史数据</a>
+                                                                         <a href="javascript:;" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-click="onu" id="{{item.oltId}}_{{item.virtualName}}M" data-click-data="{{item.oltId}}_{{item.virtualName}}">ONU管理</a>
                                                                      </td>
                                                                  </tr>
                                                                  {{/each}}

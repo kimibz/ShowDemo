@@ -30,6 +30,7 @@
             if(oData[x].status == "离线"){
                 var index = oData[x].oltId + "_" + oData[x].virtualName;
                 $("#"+index).attr("class","btn btn-outline-primary btn-sm disabled");
+                $("#"+index+"M").attr("class","btn btn-outline-primary btn-sm disabled");
             }
         }
         $("#device a[data-click='get']").bind("click", getVirtualInfo);

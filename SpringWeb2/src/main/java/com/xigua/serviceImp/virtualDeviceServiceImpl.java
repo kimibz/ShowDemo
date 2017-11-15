@@ -186,7 +186,7 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
         //删除数据库数据
         manageDao.deleteVirtualByUsr(manageDao.getId(oltId, vndName));
         //删除控制器数据
-        String cUrl = Ipaddress + "config/network-topology:network-topology/"
+        String cUrl = Ipaddress + "/restconf/config/network-topology:network-topology/"
                 + "topology/topology-netconf/node/";
         String nodeId =  "vDevice_" + oltId +"_"+vndName;
         LOG.info(nodeId);

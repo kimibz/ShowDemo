@@ -52,6 +52,7 @@
         $("#vDevice-placeholder").html(hHtml);
         $("#vDevice a[data-click='add']").bind("click", setAddOnuLabel);
         $("#vDevice a[data-click='get']").bind("click", getOnuStatus);
+        $("#confirmDeleteOnu").bind("click", deleteOnu);
     }
     //给OnuModel table赋值
     function setModelTable(oData){
@@ -59,8 +60,14 @@
         $("#vOnu-placeholder").html(hHtml);
         $("#vOnu a[data-click='deleteOnu']").bind("click", bindONUdelete);
     }
-
+    //清空form
+    function cleanForm(){
+        $("#onuId").val('');
+        $("#OnuType").val('');
+        $("#OnuMac").val('');
+    }
     function setAddOnuLabel(){
+        cleanForm();
         var port = $(this).attr("data-click-data");
         $("#confirmOnu").attr("data-click-data", port); 
         var slot =port.substring(port.indexOf("/")+1, port.lastIndexOf("/"));
@@ -145,7 +152,8 @@
         $.ajax(oAjaxOption);
     });
     //删除ONU
-    $("#confirmDeleteOnu").click(function() {
+//    $("#confirmDeleteOnu").click(function() 
+    function deleteOnu(){
         var ifIndex = $(this).attr("data-click-data");
         var nodeId = "vDevice_"+oltId+"_"+vndName;
         var oAjaxOption = {
@@ -165,7 +173,7 @@
         };
         $.blockUI(util.getBlockOption());
         $.ajax(oAjaxOption);
-    });
+    }
     $("#onuId").bind('keyup', function () {
         var v = $(this).val();
         if(v > 15){

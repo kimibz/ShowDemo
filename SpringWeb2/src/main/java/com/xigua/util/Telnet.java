@@ -36,7 +36,7 @@ public class Telnet {
         if(sendLoginInfo(userName,".*PASSWORD:")){//假如发送完用户名后得到的提示符是密码提示符  
             sendLoginInfo(password, "//]//$"); //假如发送密码信息后得到的提示符是命令提示符  
         }
-        LOG.info("连接成功");
+        System.out.println("连接成功");
     }  
     private boolean sendLoginInfo(String info,String regext){  
         Pattern pattern=Pattern.compile(regext);  
@@ -117,8 +117,8 @@ public class Telnet {
     public static void main(String[] args) throws SocketException, IOException {  
         Telnet telnet=new Telnet();  
         telnet.connect("116.228.53.162" , 23, "zte", "zte");
-        System.out.println(telnet.send("ls"));
-        LOG.info(telnet.send("ls"));  
+        System.out.println(telnet.send("enable"));
+        //LOG.info(telnet.send("ls"));  
         telnet.close();  
     }  
 }  
