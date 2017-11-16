@@ -58,7 +58,7 @@ public class HttpRequestUtil {
                 //把json字符串转换成json对象  
 //                System.out.println(object); 
             } else {  
-                LOG.error("GET失败");  
+                //LOG.error("GET失败");  
             }  
         } catch (IOException e) {  
             LOG.error("GET失败"+url+e);
@@ -94,7 +94,7 @@ public class HttpRequestUtil {
             request.setHeader("Content-type", "application/json");
             request.setEntity(params);
             CloseableHttpResponse response = client.execute(request,context);
-            LOG.info(response.toString());
+            //LOG.info(response.toString());
             //请求发送成功，并得到响应  
         } catch (IOException e) {  
             LOG.error("PUT失败"+url+e);  
@@ -124,7 +124,7 @@ public class HttpRequestUtil {
         request.setConfig(requestConfig);  
         try {  
             CloseableHttpResponse response = client.execute(request,context);  
-            LOG.info(response.toString());
+            //LOG.info(response.toString());
             //请求发送成功，并得到响应    
         } catch (IOException e) {  
             LOG.error("DELETE失败"+url+e);  
@@ -155,7 +155,7 @@ public class HttpRequestUtil {
             request.setHeader("Content-type", "application/json");
             request.setEntity(params);
             CloseableHttpResponse response = client.execute(request,context);  
-            LOG.info(response.toString());
+            //LOG.info(response.toString());
             //请求发送成功，并得到响应  
         } catch (IOException e) {  
             LOG.error("POST失败"+url+e);  

@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xigua.JSONTemplate.ControllerSettings;
 import com.xigua.JSONTemplate.JSONTemplate;
 import com.xigua.service.NetconfService;
+import com.xigua.util.HttpRequestUtil;
 import com.xigua.util.Util;
 
 
@@ -152,47 +153,15 @@ public class NetconfServiceImp implements NetconfService{
 
 	public Boolean getStatus(String device_name) {
 		// TODO Auto-generated method stub
-		String userName = "admin";
-		String password = "admin";
 		Boolean ifConnected = false ;
-		String url = Ipaddress+"/restconf/operational/"
-				+ "opendaylight-inventory:nodes/node/"
-				+ device_name +"/yang-ext:mount/";
-		// 创建HttpClient实例
-		// get请求返回结果  
-        CloseableHttpClient client = HttpClients.createDefault();  
-        CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials usernamePassword = new UsernamePasswordCredentials(
-                userName, password);
-        credsProvider.setCredentials(AuthScope.ANY, usernamePassword);
-        //HttpClient上下文,保存用户名信息  
-        HttpClientContext context = HttpClientContext.create(); 
-        context.setCredentialsProvider(credsProvider); 
-        // 发送get请求  
-        HttpGet request = new HttpGet(url);  
-        // 设置请求和传输超时时间  
-        RequestConfig requestConfig = RequestConfig.custom()  
-                .setSocketTimeout(2000).setConnectTimeout(2000).build();  
-        request.setConfig(requestConfig); 
-        try {  
-            CloseableHttpResponse response = client.execute(request,context);  
-            //请求发送成功，并得到响应  
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {  
-                //读取服务器返回过来的json字符串数据  
-                HttpEntity entity = response.getEntity();  
-                String strResult = EntityUtils.toString(entity, "utf-8");  
-                //把json字符串转换成json对象  
-                JSONObject object = JSON.parseObject(strResult);
-                LOG.info("设备："+device_name+",状态：在线");
-                ifConnected = true ;
-            } else {
-                LOG.info("设备："+device_name+"状态：离线");
-            }  
-        } catch (IOException e) {  
-            LOG.error("get请求提交失败:" + url + e);  
-        } finally {  
-            request.releaseConnection();  
-        }  
+		String url = Ipaddress+"/restconf/operational/network-topology:network-topology/topology/"
+		        + "topology-netconf/node/"+device_name;
+		String result = HttpRequestUtil.Get(url);
+        String status = JSON.parseObject(result).getJSONArray("node").getJSONObject(0)
+                .getString("netconf-node-topology:connection-status");
+        if(status.equals("connected")) {
+            ifConnected = true;
+        }
 		return ifConnected;
 	}
 

@@ -201,29 +201,33 @@ public class virtualDeviceServiceImpl implements virtualDeviceService{
                         + "zxr10-pm-sys:state/sys/ports";
         String jsonResult = HttpRequestUtil.Get(url);
         LOG.info(jsonResult);
-        JSONObject Object = JSON.parseObject(jsonResult).getJSONObject("ports");
-        JSONArray portArray = Object.getJSONArray("port");
-        System.out.println(portArray.toJSONString());
-        List<Port> port = JSON.parseArray(portArray.toJSONString(), Port.class);
-        //根据shelf&&portNumber正序排列portList
-        Collections.sort(port,new Comparator<Port>(){
-            public int compare(Port arg0, Port arg1) {
-                int hits0 = arg0.getSlot();  
-                int hits1 = arg1.getSlot();
-                int portNo0 = arg0.getPortno();
-                int portNo1 = arg1.getPortno();
-                if (hits1 > hits0) {    
-                    return -1;  
-                } else if ((hits1 == hits0) && (portNo1 > portNo0)) {  
-                    return -1;
-                }  else if(hits1 == hits0) {
-                    return 0;
-                }  else {  
-                    return 1;  
-                } 
-            }
-        });
+        List<Port> port = new ArrayList<Port>();
+        if(jsonResult != null) {
+            JSONObject Object = JSON.parseObject(jsonResult).getJSONObject("ports");
+            JSONArray portArray = Object.getJSONArray("port");
+            System.out.println(portArray.toJSONString());
+            port = JSON.parseArray(portArray.toJSONString(), Port.class);
+            //根据shelf&&portNumber正序排列portList
+            Collections.sort(port,new Comparator<Port>(){
+                public int compare(Port arg0, Port arg1) {
+                    int hits0 = arg0.getSlot();  
+                    int hits1 = arg1.getSlot();
+                    int portNo0 = arg0.getPortno();
+                    int portNo1 = arg1.getPortno();
+                    if (hits1 > hits0) {    
+                        return -1;  
+                    } else if ((hits1 == hits0) && (portNo1 > portNo0)) {  
+                        return -1;
+                    }  else if(hits1 == hits0) {
+                        return 0;
+                    }  else {  
+                        return 1;  
+                    } 
+                }
+            });
+        }
         return port;
+        
     }
 
     @Override

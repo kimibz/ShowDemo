@@ -25,6 +25,7 @@ import com.xigua.model.Topo.VOLT;
 import com.xigua.model.Topo.pon;
 import com.xigua.model.Topo.slot;
 import com.xigua.service.TopoService;
+import com.xigua.service.NetconfService;
 import com.xigua.service.virtualDeviceService;
 import com.xigua.util.HttpRequestUtil;
 import com.xigua.util.Util;
@@ -34,6 +35,8 @@ public class TopoServiceImpl implements TopoService{
     private ManageVirtualUsrDao dao ;
     @Autowired
     private virtualDeviceService service;
+    @Autowired
+    private NetconfService NetconfService;
     
     private String Ipaddress = ControllerSettings.ip;
     private static final Logger LOG = LoggerFactory.getLogger(TopoServiceImpl.class);
@@ -75,6 +78,12 @@ public class TopoServiceImpl implements TopoService{
                         List<PortInfo> ponList = new ArrayList<PortInfo>();
                         volt.setId(deviceJSON.getString("vndx-name"));
                         JSONArray assign_interface = deviceJSON.getJSONArray("assign-interface");
+                        String status = deviceJSON.getJSONObject("vndx-attribute").getString("status");
+                        if(status.equals("enable")) {
+                            volt.setIfOnline(true);
+                        }else {
+                            volt.setIfOnline(false);
+                        }
                         for(int j=0; j<assign_interface.size() ; j++){
                             slot slotOBJ =new slot();
                             PortInfo port = new PortInfo();
@@ -130,41 +139,46 @@ public class TopoServiceImpl implements TopoService{
                 List<PortInfo> ponList = new ArrayList<PortInfo>();
                 volt.setId(usr.getVirtualName());
                 String vDeviceName = "vDevice_" + usr.getOltId() +"_"+usr.getVirtualName();
-                portList = service.getInterfaceList(vDeviceName);
-                for(Port port : portList) {
-                    slot slotOBJ =new slot();
-                    PortInfo portInfo = new PortInfo();
-                    String slot = port.getSlot()+"";
-                    String portNo = port.getPortno()+"";
-                    String slotId = "槽"+slot;
-                    portInfo.setInterfaceName(port.getPortname());
-                    portInfo.setSlot(slotId);
-                    portInfo.setPortNum(portNo);
-                    ponList.add(portInfo);
-                    slotOBJ.setId(slotId);
-                    if(ifNotExistSlot(slotList,slotId))
-                        slotList.add(slotOBJ);
-                }
-                slotList = dividePort(ponList,slotList);
-                //ONU
-                slotList = giveOnu(vDeviceName, slotList);
-                //根据slotId正序排列slotList
-                Collections.sort(slotList,new Comparator<slot>(){
-                    public int compare(slot arg0, slot arg1) {
-                        int hits0 = Integer.parseInt(arg0.getId().substring(1));  
-                        int hits1 = Integer.parseInt(arg1.getId().substring(1));  
-                        if (hits1 > hits0) {    
-                            return -1;  
-                        } else if (hits1 == hits0) {  
-                            return 0;  
-                        } else {  
-                            return 1;  
-                        } 
+                Boolean status = NetconfService.getStatus(vDeviceName);
+                volt.setIfOnline(status);
+                //System.out.println("切片状态:"+status);
+                if(service.getInterfaceList(vDeviceName) != null) {
+                    portList = service.getInterfaceList(vDeviceName);
+                    for(Port port : portList) {
+                        slot slotOBJ =new slot();
+                        PortInfo portInfo = new PortInfo();
+                        String slot = port.getSlot()+"";
+                        String portNo = port.getPortno()+"";
+                        String slotId = "槽"+slot;
+                        portInfo.setInterfaceName(port.getPortname());
+                        portInfo.setSlot(slotId);
+                        portInfo.setPortNum(portNo);
+                        ponList.add(portInfo);
+                        slotOBJ.setId(slotId);
+                        if(ifNotExistSlot(slotList,slotId))
+                            slotList.add(slotOBJ);
                     }
-                });
-                volt.setSlot(slotList);
-                voltList.add(volt);
-            }
+                    slotList = dividePort(ponList,slotList);
+                    //ONU
+                    slotList = giveOnu(vDeviceName, slotList);
+                    //根据slotId正序排列slotList
+                    Collections.sort(slotList,new Comparator<slot>(){
+                        public int compare(slot arg0, slot arg1) {
+                            int hits0 = Integer.parseInt(arg0.getId().substring(1));  
+                            int hits1 = Integer.parseInt(arg1.getId().substring(1));  
+                            if (hits1 > hits0) {    
+                                return -1;  
+                            } else if (hits1 == hits0) {  
+                                return 0;  
+                            } else {  
+                                return 1;  
+                            } 
+                        }
+                    });
+                    volt.setSlot(slotList);
+                    voltList.add(volt);
+                }
+                }
             topo.setVolt(voltList);
             topo.setName("控制器-controller");//我把oltId假设成为控制器
             result.add(topo);

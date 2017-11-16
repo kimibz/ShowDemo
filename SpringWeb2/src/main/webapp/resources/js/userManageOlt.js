@@ -216,7 +216,10 @@
             //禁用性能监控按钮
             if(portList[x].porttype == "PON口"){
                 var index = parseInt(x)+1 ;
+                var portName = portList[x].portname;
+                portName = portName.replaceAll(/\//g, '\\/');
                 $("#"+index).attr("class","btn btn-outline-primary btn-sm disabled");
+                $("#"+portName).attr("class","btn btn-outline-primary btn-sm disabled");
             }
         }
         $("#device_type").content(oData.device_type);
@@ -234,9 +237,15 @@
     function setVlanConfirm(){
         //清空vlan输入框
         $("#VLAN").val("");
+        $("#ifCleanVlan").removeAttr('checked');
+        $('#VLAN').removeAttr("disabled"); 
         var vndName = $("#source").val();
         var interfaceName = $(this).attr("data-click-data");
         var pon = interfaceName.replaceAll("/","_");
+        var slot =interfaceName.substring(interfaceName.indexOf("/")+1, interfaceName.lastIndexOf("/"));
+        //if(slot=="17"){
+            //$("#ifCleanVlan").attr("disabled","disabled");
+        //}
         //确认按钮赋值
         $("#editVlanConfirm").attr("data-click-data", pon);
         var oAjaxOption = {

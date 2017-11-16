@@ -11,7 +11,11 @@ public class VOLT implements Serializable{
     private static final long serialVersionUID = 8758799225553620481L;
     
     private String id;
+    
     private List<slot>slot;
+    
+    private Boolean ifOnline ;
+    
     public String getId() {
         return id;
     }
@@ -23,6 +27,12 @@ public class VOLT implements Serializable{
     }
     public void setSlot(List<slot> slot) {
         this.slot = slot;
+    }
+    public Boolean getIfOnline() {
+        return ifOnline;
+    }
+    public void setIfOnline(Boolean ifOnline) {
+        this.ifOnline = ifOnline;
     }
     
 }

@@ -105,7 +105,12 @@
         nodes[oltId]["level"] = 0;
         if(olt1.volt != null){
             for (var i=0; i<olt1.volt.length;i++) {
-                nodes.push({id: id, label: "切片:"+olt1.volt[i].id});//, color: 'lime'
+                var ifOnline = olt1.volt[i].ifOnline;
+                if(!ifOnline){
+                    nodes.push({id: id, label: "切片:"+olt1.volt[i].id,color: 'rgb(96,96,96)'});
+                }else{
+                    nodes.push({id: id, label: "切片:"+olt1.volt[i].id});//, color: 'lime'
+                }
                 edges.push({from: 0, to:id});
                 nodes[id]["level"] = 1;
                 var voltId = id;

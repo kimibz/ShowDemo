@@ -237,7 +237,7 @@
                                     <label class="col-md-3 form-label label-wide text-info"><span id="vlanId"></span><span>&nbsp;</span><span id="limit"></span></label>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 control-label label-wide">模式: </label>
+                                    <label class="col-md-3 control-label label-wide">端口模式: </label>
                                     <label class="col-md-2 form-label label-wide text-info"><span id="vlanMode"></span><span>&nbsp;</span><span id="limit"></span></label>
                                 </div>
                                 <div class="form-group row">
