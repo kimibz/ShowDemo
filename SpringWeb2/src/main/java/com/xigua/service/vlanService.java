@@ -19,4 +19,6 @@ public interface vlanService {
     void saveStats(String vndName);
     //获取历史性能统计数据
     List<PortHistoryModel> getHistoryList(String oltId,String vndName);
+    //修改端口模式
+    void changePort(String vndName,String interfaceName);
 }

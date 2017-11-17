@@ -48,6 +48,12 @@ public class JSONTemplate {
 	        + "vlan-untag-info\":\"\",\"zxr10-vlan-dev-c600:if-index\":\"\",\""
 	        + "zxr10-vlan-dev-c600:vlan-tag-info\":\"\"}]}";
 	/*
+	 * 创建端口TRUNK
+	 */
+	public static String trunkPort = "{\"zxr10-vlan-dev-c600:if-mode\":"
+	        + "[{\"zxr10-vlan-dev-c600:mode\":\"trunk\",\"zxr10-vlan-dev-c600:if-sub-index\""
+	        + ":\"\",\"zxr10-vlan-dev-c600:if-index\":\"\"}]}";
+	/*
 	 * 添加ONU
 	 */
 	public static String addOnu = "{\"zxr10-test:onulist\":"

@@ -34,6 +34,8 @@ public class vlanServiceImpl implements vlanService{
         // TODO Auto-generated method stub
         String ifSubIndex = "0" ;
         String ifIndex = ""+util.getIndex(interfaceName);
+        //建立端口TRUNK
+        changePort(vndName,ifIndex);
         String url = Ipaddress+"/restconf/config/network-topology:network-topology/"
                 + "topology/topology-netconf/node/"
                 + vndName +"/yang-ext:mount/zxr10-vlan-dev-c600:configuration/switchvlan"
@@ -164,6 +166,22 @@ public class vlanServiceImpl implements vlanService{
                         + "/if-vlan/if-vlan-info/"+ifIndex+"/"+ifSubIndex;
         LOG.info("开始删除"+vndName+"上联口端口");
         HttpRequestUtil.Delete(url);
+    }
+
+    @Override
+    public void changePort(String vndName, String interfaceName) {
+        // TODO Auto-generated method stub
+        String jsonStr = JSONTemplate.trunkPort;
+        String ifSubIndex = "0";
+        String url = "http://localhost:8181/restconf/config/network-topology:network-topology/topology"
+                + "/topology-netconf/node/"+ vndName +"/yang-ext:mount/"
+                + "zxr10-vlan-dev-c600:configuration/switchvlan/if-attr/if-mode/"
+                + interfaceName+ "/"+ ifSubIndex;
+        JSONObject object = JSON.parseObject(jsonStr);
+        JSONObject port = object.getJSONArray("zxr10-vlan-dev-c600:if-mode").getJSONObject(0);
+        port.put("zxr10-vlan-dev-c600:if-index", interfaceName);
+        port.put("zxr10-vlan-dev-c600:if-sub-index", ifSubIndex);
+        HttpRequestUtil.Put(url, object.toJSONString());
     }
 
 }
