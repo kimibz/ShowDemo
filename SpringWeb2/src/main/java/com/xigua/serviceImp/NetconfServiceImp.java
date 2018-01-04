@@ -198,7 +198,7 @@ public class NetconfServiceImp implements NetconfService{
     		device_obj.put("netconf-node-topology:username", "admin");
     		device_obj.put("netconf-node-topology:port", i);
     		device_obj.put("netconf-node-topology:tcp-only", false);
-    		device_obj.put("netconf-node-topology:keepalive-delay", 0);
+    		device_obj.put("netconf-node-topology:keepalive-delay", 2);
     		device_obj.put("host-tracker-service:id", device_name);
     		arr.clear();
     		arr.add(0, device_obj);
